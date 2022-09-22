@@ -25,14 +25,32 @@ public class MainManager : MonoBehaviour
 
     }
 
-    public void ButtonClick_PLay()
+    public void ButtonClick_PLay(int missionNum)
     {
+        float[] lowData = { 20.0f, 3.75f, 0.0f, 400.0f, 150.0f, 30.0f, 120.4f, 0.05f, 0.0f, 2.0f };
+        MissileData data = MissileSaveLoadManager.instance.FloatToData(lowData);
+        StaticMissileData.missileData = data;
+
         if(StaticMissileData.missileData == null)
         {
             SystemMessagePrint("미사일이 선택되지 않았습니다.");
             return;
         }
-        SceneManager.LoadScene("GamePlayScene");
+
+        switch(missionNum)
+        {
+            case 1:
+                SceneManager.LoadScene("GamePlayScene_Mission1");
+                break;
+            case 2:
+                SceneManager.LoadScene("GamePlayScene_Mission2");
+                break;
+            case 3:
+                SceneManager.LoadScene("GamePlayScene_Mission3");
+                break;
+            default:
+                break;
+        }
     }
 
     public SelectSystem settingScreen;
