@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: d88a97a2adcb49149bdaaf66dea44a93
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Elixia
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 15fe33b2247b6014780b9e807903abdb, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
