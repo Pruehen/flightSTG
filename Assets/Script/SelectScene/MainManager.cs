@@ -27,7 +27,7 @@ public class MainManager : MonoBehaviour
 
     public void ButtonClick_PLay(int missionNum)
     {
-        float[] lowData = { 20.0f, 3.75f, 0.0f, 400.0f, 150.0f, 30.0f, 120.4f, 0.05f, 0.0f, 2.0f };
+        float[] lowData = { 20.0f, 7f, 0.0f, 400.0f, 150.0f, 30.0f, 120.4f, 0.05f, 0.0f, 2.0f };
         MissileData data = MissileSaveLoadManager.instance.FloatToData(lowData);
         StaticMissileData.missileData = data;
 
