@@ -12004,7 +12004,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 672877874}
   m_HandleRect: {fileID: 672877873}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.5
   m_Size: 0.04
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12800,7 +12800,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781161664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: -3.28}
+  m_LocalPosition: {x: 0, y: 0, z: -3.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

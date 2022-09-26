@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.45296368, g: 0.69237477, b: 0.8207547, a: 1}
+  m_FogColor: {r: 0.45490196, g: 0.6056983, b: 0.81960785, a: 1}
   m_FogMode: 2
   m_FogDensity: 0.00007
   m_LinearFogStart: 0
@@ -6873,7 +6873,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 816191791}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12005,7 +12005,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 672877874}
   m_HandleRect: {fileID: 672877873}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.5
   m_Size: 0.04
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12801,7 +12801,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781161664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: -3.28}
+  m_LocalPosition: {x: 0, y: 0, z: -3.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13234,6 +13234,26 @@ PrefabInstance:
     - target: {fileID: 1998420839463766305, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608329082740923208, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 601701f0152d53c49bc3b9ae9b90c983, type: 3}
+    - target: {fileID: 4608329082740923208, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
@@ -23894,7 +23914,7 @@ Transform:
   m_GameObject: {fileID: 1145442129}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 500, y: 500, z: 500}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1574440556}
@@ -23941,12 +23961,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 700b81b38415df5409aa0051b4b6cd5e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 601701f0152d53c49bc3b9ae9b90c983, type: 3}
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -24656,7 +24676,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: adc32b398d3095b4f92ed2738fffdec7, type: 2}
+  - {fileID: 2100000, guid: d93816328639b73459e52af75ae1dd84, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -56947,6 +56967,26 @@ PrefabInstance:
     - target: {fileID: 1998420839463766305, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055843462621554668, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608329082740923208, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 601701f0152d53c49bc3b9ae9b90c983, type: 3}
+    - target: {fileID: 4608329082740923208, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45142d7dc97cbb943a1470373ee7ce9d, type: 3}

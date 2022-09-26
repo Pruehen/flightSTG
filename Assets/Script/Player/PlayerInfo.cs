@@ -44,6 +44,7 @@ public class PlayerInfo : MonoBehaviour
     {
         airPressure = Mathf.Pow(1 - ((this.transform.position.y / 300) / 145.45f), 5.2561f);
         rigidbody.drag = dc * airPressure * ((rigidbody.velocity.magnitude + 700) / 700);
+        rigidbody.angularDrag = rigidbody.drag * 500;
 
 
         rigidbody.AddForce(this.transform.forward * enginePower * MAX_POWER * EnginePowerSet(), ForceMode.Force);
