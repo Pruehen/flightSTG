@@ -15,18 +15,23 @@ public class PlayerEffect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        rEnginePosition = rEngineParticle.transform.localPosition;
+        lEnginePosition = lEngineParticle.transform.localPosition;
     }
 
     bool isPitching = false;
     bool isHighAlpha = false;
+
+    Vector3 rEnginePosition;
+    Vector3 lEnginePosition;
+
     // Update is called once per frame
     void Update()
     {
         enginePower = PlayerInfo.playerInfo.enginePower;
 
-        rEngineParticle.gameObject.transform.localPosition = new Vector3(0.54f, -0.2f, 10 - enginePower * 10);
-        lEngineParticle.gameObject.transform.localPosition = new Vector3(-0.54f, -0.2f, 10 - enginePower * 10);
+        rEngineParticle.gameObject.transform.localPosition = new Vector3(rEnginePosition.x, rEnginePosition.y, 10 - enginePower * 10);
+        lEngineParticle.gameObject.transform.localPosition = new Vector3(lEnginePosition.x, lEnginePosition.y, 10 - enginePower * 10);
 
         if (PlayerInfo.playerInfo.aoa > PlayerInfo.playerInfo.STALL_AOA * 0.9f && !isHighAlpha)
         {

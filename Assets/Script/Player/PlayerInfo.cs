@@ -6,20 +6,21 @@ using TMPro;
 
 public class PlayerInfo : MonoBehaviour
 {
-    float dc = 0.03f;//항력계수
+    public float dc = 0.03f;//항력계수
+    public float wL;//익면하중 (t/m^2)
     float airPressure = 1;
 
     public float enginePower { get; set; }//0~1
-    const float MAX_POWER = 16f;
+    public float MAX_POWER = 16f;
 
     public float pitchAxis { get; set; }//-1~1
-    const float MAX_PITCHMOMENT = 30;
+    public float MAX_PITCHMOMENT = 30;
     public float rollAxis { get; set; }//-1~1
-    const float MAX_ROLLMOMENT = 80;
+    public float MAX_ROLLMOMENT = 80;
     public float yawAxis { get; set; }//-1~1
-    const float MAX_YAWMOMENT = 5;
+    public float MAX_YAWMOMENT = 5;
 
-    const float MAX_LIFTPOWER = 40f;
+    public float MAX_LIFTPOWER = 40f;
 
     public static PlayerInfo playerInfo;
     private void Awake()
@@ -33,9 +34,6 @@ public class PlayerInfo : MonoBehaviour
     {
         rigidbody = this.GetComponent<Rigidbody>();
         rigidbody.velocity = new Vector3(0, 0, 200);
-
-        STALL_AOA = 20;
-        wL = 274;//익면하중
     }
 
     bool isStall = false;
@@ -50,7 +48,7 @@ public class PlayerInfo : MonoBehaviour
         rigidbody.AddForce(this.transform.forward * enginePower * MAX_POWER * EnginePowerSet(), ForceMode.Force);
         if (MAX_LIFTPOWER < Mathf.Abs(liftPower))//허용G에 따른 피칭모멘트 제한
         {
-            pitchAxis *= (MAX_LIFTPOWER / Mathf.Abs(liftPower));
+            pitchAxis *= Mathf.Clamp((MAX_LIFTPOWER / Mathf.Abs(liftPower)), 0, 1);
         }
         //Debug.Log(pitchAxis);
         float speedValue = Mathf.Clamp(((rigidbody.velocity.magnitude - 30) * airPressure) * 0.003f, 0, 1);//속도에 반비례한 회전모멘트 감소
@@ -104,7 +102,7 @@ public class PlayerInfo : MonoBehaviour
     public float aoa { get; private set; }
     float sideSlip;
     Vector3 aoaVec;
-    public float STALL_AOA { get; private set;}
+    public float STALL_AOA;
     public float speed { get; private set; }
 
     void AoaSet()//기체 자세에 따른 받음각 생성
@@ -116,7 +114,7 @@ public class PlayerInfo : MonoBehaviour
     }
     float liftPower;
     float cl;//양력계수 
-    float wL;//익면하중 (t/m^2)
+    
 
     void LiftPowerSet()//받음각과 스톨각에 따른 양력 생성
     {

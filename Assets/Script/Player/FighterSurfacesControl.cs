@@ -8,8 +8,11 @@ public class FighterSurfacesControl : MonoBehaviour
     public Transform rightElevator, leftElevator;
     public Transform rightFlap, leftFlap;
     public Transform rightRudder, leftRudder;
+
     public float MRx, MRy, MRz;
     public float maxAngle, flapMaxAngle, rudderMaxAngle;
+    public float[] heading = new float[6];
+    public float[] bank = new float[6];
     public float rightElevatorSetAngle, leftElevatorSetAngle;
     public bool useMouse;
     public bool turnFlap;
@@ -18,8 +21,8 @@ public class FighterSurfacesControl : MonoBehaviour
     private float angleX;
 	// Use this for initialization
 	void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,22 +53,25 @@ public class FighterSurfacesControl : MonoBehaviour
                 if (Input.GetKeyDown("p")) { turnFlap = false; f = true; }
             }
         }
-        rightElevator.transform.localRotation = Quaternion.Euler(new Vector3((MRz + MRx) * maxAngle, rightElevatorSetAngle, 0));
-        leftElevator.transform.localRotation = Quaternion.Euler(new Vector3((-MRz + MRx) * maxAngle,
-            leftElevatorSetAngle, 0));
-        TransAng(rightRudder, 0, MRy * rudderMaxAngle, 118);
-        TransAng(leftRudder, 0, MRy * rudderMaxAngle, 62);
+        //rightElevator.transform.localRotation = Quaternion.Euler(new Vector3((MRz + MRx) * maxAngle, rightElevatorSetAngle, 0));
+        //leftElevator.transform.localRotation = Quaternion.Euler(new Vector3((-MRz + MRx) * maxAngle, leftElevatorSetAngle, 0));
+        TransAng(rightElevator, heading[0], (MRz + MRx) * maxAngle, bank[0]);
+        TransAng(leftElevator, heading[1], (-MRz + MRx) * maxAngle, bank[1]);
+
+        TransAng(rightRudder, heading[4], MRy * rudderMaxAngle, bank[4]);
+        TransAng(leftRudder, heading[5], MRy * rudderMaxAngle, bank[5]);
+
 	    if (turnFlap)
 	    {
             angleX = Mathf.Lerp(angleX, 1, turnSpeed * Time.deltaTime);
-            TransAng(rightFlap, 0, angleX * flapMaxAngle, 0);
-            TransAng(leftFlap, 0, angleX * flapMaxAngle, 0);
+            TransAng(rightFlap, heading[2], angleX * flapMaxAngle, bank[2]);
+            TransAng(leftFlap, heading[3], angleX * flapMaxAngle, bank[3]);
 	    }
 	    else
 	    {
             angleX = Mathf.Lerp(angleX, 0, turnSpeed * Time.deltaTime);
-            TransAng(rightFlap, 0, angleX * flapMaxAngle, 0);
-            TransAng(leftFlap, 0, angleX * flapMaxAngle, 0);
+            TransAng(rightFlap, heading[2], angleX * flapMaxAngle, bank[2]);
+            TransAng(leftFlap, heading[3], angleX * flapMaxAngle, bank[3]);
 	    }
 	}
     float c1, c2, c3, s1, s2, s3;
