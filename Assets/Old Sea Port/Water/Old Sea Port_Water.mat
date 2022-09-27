@@ -112,7 +112,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Ripples2:
         m_Texture: {fileID: 2800000, guid: f366779a17f54444485071fb5eab8ce2, type: 3}
-        m_Scale: {x: 100, y: 100}
+        m_Scale: {x: 500, y: 500}
         m_Offset: {x: 0, y: 0}
     - _Ripples_Displacement:
         m_Texture: {fileID: 0}
@@ -201,7 +201,7 @@ Material:
     - _IndexofRefraction: 1.05
     - _MainShown: 1
     - _MaskClipValue: 0.5
-    - _Metallic: 1
+    - _Metallic: 0.625
     - _Metallic2: 1
     - _Midpoint: -0.212
     - _MinPulseBrightness: 0
@@ -318,7 +318,7 @@ Material:
     - maxDist: 10
     - minDist: 1
     m_Colors:
-    - _Color: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
+    - _Color: {r: 0.29436633, g: 0.3843384, b: 0.46226418, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _CurvatureMultOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CutoffEdgeGlow: {r: 0, g: 0, b: 0, a: 0.02}
