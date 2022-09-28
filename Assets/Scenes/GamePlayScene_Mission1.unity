@@ -7593,6 +7593,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_F18
       objectReference: {fileID: 0}
+    - target: {fileID: 58536110696278142, guid: 687cbe65e522f914aad291e81944d109, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 58536111204540612, guid: 687cbe65e522f914aad291e81944d109, type: 3}
       propertyPath: radarBox
       value: 

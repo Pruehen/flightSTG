@@ -51,11 +51,13 @@ public class MissionSceneManager : MonoBehaviour
 
     public void ToMainScene()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("MainScene");
     }
 
     public void ToDebriefingScene()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("DebriefingScene");
     }
 }
