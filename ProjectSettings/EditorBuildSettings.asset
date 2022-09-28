@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GamePlayScene_Mission3.unity
     guid: 7c79b2b1068d61f4c92ac8c435689faf
+  - enabled: 1
+    path: Assets/Scenes/DebriefingScene.unity
+    guid: 7f633e4a26594e143ae519da681c8421
   m_configObjects: {}

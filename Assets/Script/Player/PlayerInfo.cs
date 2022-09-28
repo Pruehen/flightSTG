@@ -165,7 +165,7 @@ public class PlayerInfo : MonoBehaviour
     {
         if(other.tag == "Ground")
         {
-            Destroy(this.gameObject);
+            MissionSceneManager.instance.ToDebriefingScene();
         }
     }
 }
