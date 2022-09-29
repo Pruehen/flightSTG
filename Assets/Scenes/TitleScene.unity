@@ -31398,8 +31398,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 40cace76a0d79bb48a49909f721195c9, type: 2}
-  m_sharedMaterial: {fileID: 5129386946120782384, guid: 40cace76a0d79bb48a49909f721195c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 89feaeec5520905469bc7755ce8ccecb, type: 2}
+  m_sharedMaterial: {fileID: 1439116165887618370, guid: 89feaeec5520905469bc7755ce8ccecb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31423,12 +31423,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.9
-  m_fontSizeBase: 60.9
+  m_fontSize: 40
+  m_fontSizeBase: 45
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 40
   m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
@@ -40364,7 +40364,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 65}
-  m_SizeDelta: {x: 400, y: 150}
+  m_SizeDelta: {x: 380, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1891361109
 MonoBehaviour:
