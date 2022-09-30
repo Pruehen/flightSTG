@@ -21,8 +21,6 @@ public class PlayerWeaponControl : MonoBehaviour
 
     float maxMissileCool;
 
-    int misnum = 0;
-
     PlayerSoundManager playerSoundManager;
     enum MissileIndex
     {
@@ -59,7 +57,7 @@ public class PlayerWeaponControl : MonoBehaviour
             if(!isCanFireMissile[i])
             {
                 missileCooldown[i] -= Time.deltaTime;
-                StartCoroutine(MisCool(missileCooldown[i], maxMissileCool, misnum));
+                StartCoroutine(MisCool(missileCooldown[i], maxMissileCool, i));
 
                 if(missileCooldown[i] <= 0)
                 {
@@ -151,7 +149,7 @@ public class PlayerWeaponControl : MonoBehaviour
 
     IEnumerator MisCool(float cool, float max, int index)
     {
-        while (cool > 1.0f)
+        while (cool >= 0f)
         {
             Misille[index].fillAmount = 1.0f - cool / max;
             

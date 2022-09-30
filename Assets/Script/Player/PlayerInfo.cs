@@ -95,13 +95,14 @@ public class PlayerInfo : MonoBehaviour
         speed = rigidbody.velocity.magnitude;
     }
 
-    [SerializeField] TextMeshProUGUI speedText, heightText;
+    [SerializeField] TextMeshProUGUI speedText, heightText, HPPOINT;
 
     private void Update()
     {
         speedText.text = (int)(rigidbody.velocity.magnitude * 3.6f) + "km/h";
         heightText.text = (int)(this.transform.position.y) + "m";
         HpBarColor();
+        HPPOINT.text = "HP " + (int)(hp / 5) + " %";
     }
 
     public float aoa { get; private set; }
