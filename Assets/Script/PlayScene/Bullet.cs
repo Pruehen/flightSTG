@@ -54,12 +54,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.GetComponent<Enemy>() != null)
         {
-            float randumCount = Random.Range(0, 100);
-            if (randumCount > 80)
-            {
-                other.GetComponent<Enemy>().Destroyed();
-            }
-
+            other.GetComponent<Enemy>().Hit(10, true);
         }
         InPool();
     }

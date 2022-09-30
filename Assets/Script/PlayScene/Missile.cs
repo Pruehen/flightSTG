@@ -190,7 +190,7 @@ public class Missile : MonoBehaviour
 
         if(other.gameObject.layer == 8)
         {
-            other.GetComponent<Enemy>().Destroyed();
+            other.GetComponent<Enemy>().Hit(100, false);
         }
         if(this.gameObject.layer == 9)
         {

@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         rigidbody.velocity = transform.forward * 200;
+        hp = max_Hp;
     }
 
     float airPressure;
@@ -31,6 +32,8 @@ public class Enemy : MonoBehaviour
     const float MAX_YAWMOMENT = 10;
 
     const float MAX_LIFTPOWER = 40f;
+    float hp;
+    public float max_Hp;
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -96,7 +99,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Destroyed()
+    public ParticleSystem gunHitEffect;
+    public AudioSource gunHitSound;
+    public void Hit(float dmg, bool gunEffectOn)
+    {
+        hp -= dmg;
+        if(hp <= 0)
+        {
+            Destroyed();
+        }
+        else if(gunEffectOn)
+        {
+            GunHitEffect();
+        }
+    }
+
+    void GunHitEffect()
+    {
+        gunHitEffect.Play();
+        gunHitSound.Play();
+    }
+
+    void Destroyed()
     {
         EnemyManager.instance.EnemyCreate();
 
