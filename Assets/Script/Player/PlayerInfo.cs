@@ -21,6 +21,8 @@ public class PlayerInfo : MonoBehaviour
     public float MAX_YAWMOMENT = 5;
 
     public float MAX_LIFTPOWER = 40f;
+    public float max_hp;
+    float hp;
 
     public static PlayerInfo playerInfo;
     private void Awake()
@@ -34,6 +36,7 @@ public class PlayerInfo : MonoBehaviour
     {
         rigidbody = this.GetComponent<Rigidbody>();
         rigidbody.velocity = new Vector3(0, 0, 200);
+        hp = max_hp;
     }
 
     bool isStall = false;
@@ -160,6 +163,17 @@ public class PlayerInfo : MonoBehaviour
             return Mathf.Lerp(1.5f, 1, speed * 0.0025f - 1) * Mathf.Pow(airPressure, 0.5f);
         }
     }   
+
+    public void Hit(float dmg)
+    {
+        hp -= dmg;
+        Debug.Log(hp);
+
+        if(hp <= 0)
+        {
+            MissionSceneManager.instance.ToDebriefingScene();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -196,6 +196,10 @@ public class Missile : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
         }
+        if(other.gameObject.layer == 6)
+        {
+            PlayerInfo.playerInfo.Hit(100);
+        }
         //rigidbody.velocity = Vector3.zero;
     }
 }
