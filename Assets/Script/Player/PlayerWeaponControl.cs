@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerWeaponControl : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class PlayerWeaponControl : MonoBehaviour
     float gunShotDelay = 0.05f;
     float gunDelay;
 
+    public Image[] Misille;
+
+    float maxMissileCool;
+
+    int misnum = 0;
 
     PlayerSoundManager playerSoundManager;
     enum MissileIndex
@@ -44,6 +50,7 @@ public class PlayerWeaponControl : MonoBehaviour
     }
 
     bool isFireing = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -52,7 +59,9 @@ public class PlayerWeaponControl : MonoBehaviour
             if(!isCanFireMissile[i])
             {
                 missileCooldown[i] -= Time.deltaTime;
-                if(missileCooldown[i] < 0)
+                StartCoroutine(MisCool(missileCooldown[i], maxMissileCool, misnum));
+
+                if(missileCooldown[i] <= 0)
                 {
                     isCanFireMissile[i] = true;
                     missilePoint[i].gameObject.SetActive(true);
@@ -134,9 +143,20 @@ public class PlayerWeaponControl : MonoBehaviour
             missilePoint[index].gameObject.SetActive(false);
             isCanFireMissile[index] = false;
             missileCooldown[index] = 4;
+            maxMissileCool = 4;
         }
 
         return;
+    }
+
+    IEnumerator MisCool(float cool, float max, int index)
+    {
+        while (cool > 1.0f)
+        {
+            Misille[index].fillAmount = 1.0f - cool / max;
+            
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     Vector3 FirePointSet(int index)
