@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerInfo : MonoBehaviour
 {
+    public GameObject HPBAR;
     public float dc = 0.03f;//항력계수
     public float wL;//익면하중 (t/m^2)
     float airPressure = 1;
@@ -100,6 +101,7 @@ public class PlayerInfo : MonoBehaviour
     {
         speedText.text = (int)(rigidbody.velocity.magnitude * 3.6f) + "km/h";
         heightText.text = (int)(this.transform.position.y) + "m";
+        HpBarColor();
     }
 
     public float aoa { get; private set; }
@@ -172,6 +174,31 @@ public class PlayerInfo : MonoBehaviour
         if(hp <= 0)
         {
             MissionSceneManager.instance.ToDebriefingScene();
+        }
+    }
+
+    public void HpBarColor()
+    {
+        switch (hp / max_hp * (max_hp / 100))
+        {
+            case 0:
+                HPBAR.GetComponent<Image>().color = new Color(0f, 0f, 0f);
+                break;
+            case 1:
+                HPBAR.GetComponent<Image>().color = new Color(1f, 0f, 0f);
+                break;
+            case 2:
+                HPBAR.GetComponent<Image>().color = new Color(1f, 0.5f, 0f);
+                break;
+            case 3:
+                HPBAR.GetComponent<Image>().color = new Color(1f, 1f, 0f);
+                break;
+            case 4:
+                HPBAR.GetComponent<Image>().color = new Color(0.5f, 1f, 0f);
+                break;
+            case 5:
+                HPBAR.GetComponent<Image>().color = new Color(0, 1, 0);
+                break;
         }
     }
 
