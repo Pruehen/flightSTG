@@ -8031,6 +8031,14 @@ PrefabInstance:
       propertyPath: aimPoint_UI
       value: 
       objectReference: {fileID: 315522329}
+    - target: {fileID: 630522285189301491, guid: f2dc27c35c37204458e9a3bc39fe3874, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 630522285189301491, guid: f2dc27c35c37204458e9a3bc39fe3874, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2dc27c35c37204458e9a3bc39fe3874, type: 3}
 --- !u!1001 &1998420839774788024

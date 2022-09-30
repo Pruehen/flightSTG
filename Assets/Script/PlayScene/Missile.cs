@@ -141,7 +141,7 @@ public class Missile : MonoBehaviour
 
         if(sideForce.magnitude < MAX_G)
         {
-            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis, MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
+            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis * (rigidbody.velocity.magnitude * 0.002f), MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
         }
 
         if (Vector3.Angle(this.transform.forward, targetVec - this.transform.position) > MAX_BORESITE)
