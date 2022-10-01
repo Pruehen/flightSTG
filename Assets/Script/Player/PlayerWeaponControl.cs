@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 public class PlayerWeaponControl : MonoBehaviour
 {
@@ -16,8 +16,6 @@ public class PlayerWeaponControl : MonoBehaviour
 
     float gunShotDelay = 0.05f;
     float gunDelay;
-
-    public Image[] Misille;
 
     float maxMissileCool;
 
@@ -57,7 +55,6 @@ public class PlayerWeaponControl : MonoBehaviour
             if(!isCanFireMissile[i])
             {
                 missileCooldown[i] -= Time.deltaTime;
-                StartCoroutine(MisCool(missileCooldown[i], maxMissileCool, i));
 
                 if(missileCooldown[i] <= 0)
                 {
@@ -145,16 +142,6 @@ public class PlayerWeaponControl : MonoBehaviour
         }
 
         return;
-    }
-
-    IEnumerator MisCool(float cool, float max, int index)
-    {
-        while (cool >= 0f)
-        {
-            Misille[index].fillAmount = 1.0f - cool / max;
-            
-            yield return new WaitForFixedUpdate();
-        }
     }
 
     Vector3 FirePointSet(int index)
