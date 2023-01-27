@@ -29,6 +29,14 @@ public class PlayerWeaponControl : MonoBehaviour
     Rigidbody rigidbody;
 
     MissileData haveMissileData;
+
+    public static PlayerWeaponControl instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +50,7 @@ public class PlayerWeaponControl : MonoBehaviour
         rigidbody = this.GetComponent<Rigidbody>();
         playerSoundManager = this.GetComponent <PlayerSoundManager>();
 
-        haveMissileData = StaticMissileData.missileData;
+        haveMissileData = new MissileData(8, 5.3f, 0, 600, 160, 60, 180, 0.05f, 0);
     }
 
     bool isFireing = false;
@@ -64,10 +72,10 @@ public class PlayerWeaponControl : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && Rader.rader.target != null)
+        /*if (Input.GetMouseButtonDown(1) && Rader.rader.target != null)
         {
             FireMissile(MissileIndex.Aim_9);
-        }
+        }*/
 
 
         gunDelay += Time.deltaTime;
@@ -77,7 +85,7 @@ public class PlayerWeaponControl : MonoBehaviour
             gunDelay = 0;            
         }
 
-        if(Input.GetMouseButtonDown(0))
+        /*if(Input.GetMouseButtonDown(0))
         {
             isFireing = true;
             gunMuzzleEffect.Play();
@@ -88,16 +96,16 @@ public class PlayerWeaponControl : MonoBehaviour
             isFireing = false;
             gunMuzzleEffect.Stop();
             playerSoundManager.gunSound.Stop();
-        }
+        }*/
     }
 
-    void FireMissile(MissileIndex missile)
+    public void FireMissile()
     {
         Vector3 firePoint = Vector3.zero;
         int index;
 
-        GameObject selectedMissile;
-        switch(haveMissileData.bodyType)
+        GameObject selectedMissile = aim9_Model;
+        /*switch(haveMissileData.bodyType)
         {
             case 0:
                 selectedMissile = r60_model;
@@ -116,9 +124,9 @@ public class PlayerWeaponControl : MonoBehaviour
                 break;
             default:
                 return;                
-        }
+        }*/
 
-        if(missile == MissileIndex.Aim_9)
+        if(true)//missile == MissileIndex.Aim_9)
         {
             index = 0;
 

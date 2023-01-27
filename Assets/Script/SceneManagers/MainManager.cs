@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainManager : MonoBehaviour//MissionSelectSceneManager
 {
@@ -13,7 +12,6 @@ public class MainManager : MonoBehaviour//MissionSelectSceneManager
     // Start is called before the first frame update
     void Start()
     {
-        settingScreen.gameObject.SetActive(false);
         missileSaveScreen.gameObject.SetActive(false);
         systemMessage.gameObject.SetActive(false);
         aircraftSet.gameObject.SetActive(false);
@@ -28,16 +26,10 @@ public class MainManager : MonoBehaviour//MissionSelectSceneManager
     public void ButtonClick_PLay(int missionNum)
     {
         float[] lowData = { 20.0f, 7f, 0.0f, 400.0f, 150.0f, 30.0f, 120.4f, 0.05f, 0.0f, 1.0f };
-        MissileData data = MissileSaveLoadManager.instance.FloatToData(lowData);
-        StaticMissileData.missileData = data;
+        //MissileData data = MissileSaveLoadManager.instance.FloatToData(lowData);
 
-        if(StaticMissileData.missileData == null)
-        {
-            SystemMessagePrint("미사일이 선택되지 않았습니다.");
-            return;
-        }
 
-        switch(missionNum)
+        /*switch(missionNum)
         {
             case 1:
                 SceneManager.LoadScene("GamePlayScene_Mission1");
@@ -50,15 +42,15 @@ public class MainManager : MonoBehaviour//MissionSelectSceneManager
                 break;
             default:
                 break;
-        }
+        }*/
     }
 
-    public SelectSystem settingScreen;
+    //public SelectSystem settingScreen;
     public GameObject missileSaveScreen;
     public SystemMessage systemMessage;
     public AircraftSet aircraftSet;
 
-    public void ButtonClick_Setting(bool value)
+    /*public void ButtonClick_Setting(bool value)
     {
         if (value)
         {
@@ -70,7 +62,7 @@ public class MainManager : MonoBehaviour//MissionSelectSceneManager
             settingScreen.SelectScreenInit();
             settingScreen.gameObject.SetActive(false);
         }
-    }
+    }*/
 
     public void ButtonClick_MissileSave(bool value)
     {

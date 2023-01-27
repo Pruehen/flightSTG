@@ -9,7 +9,7 @@ using TMPro;
 
 public class MissileSaveLoadManager : MonoBehaviour
 {
-    public static MissileSaveLoadManager instance;
+    /*public static MissileSaveLoadManager instance;
     private void Awake()
     {        
         instance = this;
@@ -46,7 +46,7 @@ public class MissileSaveLoadManager : MonoBehaviour
             }
             return _saveData;
         }
-    }*/
+    }
     private void Start()
     {
         LoadGameData();
@@ -159,5 +159,5 @@ public class SaveData
     {
         name = name_;
         data = data_;
-    }
+    }*/
 }

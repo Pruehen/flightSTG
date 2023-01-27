@@ -6,27 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
-    guid: 7b973ba740699da4f961a751c74793b0
-  - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: f7a27112e16b59443a50dc8f68b4e481
   - enabled: 1
-    path: Assets/Scenes/VehicleSelectScene.unity
-    guid: 53d9cbb764f6df840a5dbcda1fa589f1
-  - enabled: 1
-    path: Assets/Scenes/MissionSelectScene.unity
-    guid: 8a5ec06219a31e94cb159df144022c3a
-  - enabled: 1
-    path: Assets/Scenes/GamePlayScene_Mission1.unity
+    path: Assets/Scenes/GamePlayScene.unity
     guid: 005a6526a623a3946b0b3288b3995048
-  - enabled: 1
-    path: Assets/Scenes/GamePlayScene_Mission2.unity
-    guid: e761e51899154994a831c2c1c51bce57
-  - enabled: 1
-    path: Assets/Scenes/GamePlayScene_Mission3.unity
-    guid: 7c79b2b1068d61f4c92ac8c435689faf
-  - enabled: 1
-    path: Assets/Scenes/DebriefingScene.unity
-    guid: 7f633e4a26594e143ae519da681c8421
   m_configObjects: {}

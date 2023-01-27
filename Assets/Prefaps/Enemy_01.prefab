@@ -315,6 +315,7 @@ MonoBehaviour:
   max_Hp: 100
   gunHitEffect: {fileID: 6916423216920930069}
   gunHitSound: {fileID: 292742896869559799}
+  score: 250
 --- !u!1 &1998799329166015630
 GameObject:
   m_ObjectHideFlags: 0

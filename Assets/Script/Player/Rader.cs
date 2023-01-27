@@ -94,6 +94,17 @@ public class Rader : MonoBehaviour
         }
     }
 
+    public Vector3 ReturnTargetVec()
+    {
+        if(target != null)
+        {
+            Vector3 targetVec = target.transform.position - this.transform.position;
+            targetVec = this.transform.InverseTransformDirection(targetVec).normalized;
+            return targetVec;
+        }
+        return Vector3.zero;
+    }
+
     void RadarBoxSet()
     {
         /*if (target == null)

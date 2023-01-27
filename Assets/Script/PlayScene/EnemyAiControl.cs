@@ -172,17 +172,8 @@ public class EnemyAiControl : MonoBehaviour
 
     MissileData GetInstanceMissileData()//작동시간, 1차 부스터, 2차 부스터, 최대기동, 추력, 추적률, 시커각, 항력, 시커타입(0,1,2), 동체타입(0~4)
     {
-        MissileData missileData = new MissileData();
-        missileData.lifeTime = 10;
-        missileData.firstBurnTime = 2;
-        missileData.secondBurnTime = 8;
-        missileData.MAX_G = 150;
-        missileData.enginePower = 160;
-        missileData.MAX_TURN_RATE = 10;
-        missileData.MAX_BORESITE = 90;
-        missileData.defaultDrag = 0.08f;
-        missileData.seekerType = 2;
-        missileData.bodyType = 2;
+        MissileData missileData = new MissileData(10, 5, 0, 180, 150, 20, 90, 0.08f, 0);
+
         return missileData;
     }
 

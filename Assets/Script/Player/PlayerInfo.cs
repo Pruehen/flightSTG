@@ -134,11 +134,11 @@ public class PlayerInfo : MonoBehaviour
         }
         else if(aoa >= 0 && aoa < STALL_AOA)
         {
-            cl = Mathf.Lerp(0, 3f, aoa / STALL_AOA);
+            cl = Mathf.Lerp(0, 5f, aoa / STALL_AOA);
         }
         else if(aoa >= STALL_AOA)
         {
-            cl = 3f;
+            cl = 2.5f;
         }
         liftPower = Mathf.Pow(rigidbody.velocity.magnitude, 2) * cl * airPressure * 0.5f / wL;
 
@@ -174,7 +174,7 @@ public class PlayerInfo : MonoBehaviour
 
         if(hp <= 0)
         {
-            MissionSceneManager.instance.ToDebriefingScene();
+            MissionSceneManager.instance.ToMainScene();
         }
     }
 
@@ -207,7 +207,7 @@ public class PlayerInfo : MonoBehaviour
     {
         if(other.tag == "Ground")
         {
-            MissionSceneManager.instance.ToDebriefingScene();
+            MissionSceneManager.instance.ToMainScene();
         }
     }
 }

@@ -29,7 +29,7 @@ public class Missile : MonoBehaviour
     private void Start()
     {
         countermeasureManager = CountermeasureManager.instance.transform;
-        InvokeRepeating("CountermeasureCheck", 1, 0.5f);
+        InvokeRepeating("CountermeasureCheck", 1, 0.5f);        
     }
 
     GameObject targetObject;
@@ -40,7 +40,7 @@ public class Missile : MonoBehaviour
 
     public void Init(Rigidbody rigidbody_, GameObject target_, MissileData missileData)
     {
-        rigidbody.velocity = rigidbody_.velocity;
+        rigidbody.velocity = rigidbody_.velocity - this.transform.up * 10;
         targetObject = target_;
         originTerget = target_;
 
@@ -114,9 +114,9 @@ public class Missile : MonoBehaviour
     float orderY;
     float orderXDiff;
     float orderYDiff;
-    const float Kp = 2f;
-    const float Kd = 5f;
-    const float LIFT_POWER_VALUE = 0.02f;
+    const float Kp = 1.5f;
+    const float Kd = 6f;
+    const float LIFT_POWER_VALUE = 0.01f;
     const float SPEED_GAIN = 900;
     Vector3 sideForce;
     void Guided()
@@ -141,7 +141,7 @@ public class Missile : MonoBehaviour
 
         if(sideForce.magnitude < MAX_G)
         {
-            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis * (rigidbody.velocity.magnitude * 0.002f), MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
+            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis * (rigidbody.velocity.magnitude * 0.0001f) * MAX_TURN_RATE, MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
         }
 
         if (Vector3.Angle(this.transform.forward, targetVec - this.transform.position) > MAX_BORESITE)

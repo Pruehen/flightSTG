@@ -7,12 +7,18 @@ using UnityEngine.UI;
 public class PlayerControll : MonoBehaviour
 {
     [SerializeField] Scrollbar throttleBar, pitchBar, rollBar, yawBar;
-    ControlSystem controlSystem = ControlSystem.mouse;
+    ControlSystem controlSystem = ControlSystem.gyro;
+
+    public JoyStick joystick;
+
+    Vector3 startGyroVec;
+
     // Start is called before the first frame update
     void Start()
     {
-        controlSystem = ControlSystem.mouse;
+        controlSystem = ControlSystem.gyro;
 
+        startGyroVec = Input.acceleration.normalized;
         //playerCountermeasure = 
     }
     const int SCREEN_X = 1920;
@@ -20,8 +26,9 @@ public class PlayerControll : MonoBehaviour
 
     enum ControlSystem
     {
-        keybord,
-        mouse
+        joyPad,
+        mouse,
+        gyro
     }
 
     float high_G_TurnValue = 1;
@@ -50,12 +57,12 @@ public class PlayerControll : MonoBehaviour
         {
             high_G_TurnValue = 1;
         }
-        PlayerInfo.playerInfo.enginePower = throttleBar.value;
+        PlayerInfo.playerInfo.enginePower = Mathf.Lerp(PlayerInfo.playerInfo.enginePower, throttleBar.value, 0.05f);
         #endregion
 
         switch(controlSystem)
         {
-            case ControlSystem.keybord:
+            case ControlSystem.joyPad:
                 #region 피치축
                 if (Input.GetKey(KeyCode.S))
                 {
@@ -67,7 +74,7 @@ public class PlayerControll : MonoBehaviour
                 }
                 else
                 {
-                    pitchBar.value = Mathf.Lerp(pitchBar.value, 0.5f, 0.1f);
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, joystick.JoyPosition().y, 0.1f);
                 }
 
                 #endregion
@@ -83,7 +90,7 @@ public class PlayerControll : MonoBehaviour
                 }
                 else
                 {
-                    rollBar.value = Mathf.Lerp(rollBar.value, 0.5f, 0.1f);
+                    rollBar.value = Mathf.Lerp(rollBar.value, joystick.JoyPosition().x, 0.1f);
                 }
 
                 #endregion
@@ -114,6 +121,33 @@ public class PlayerControll : MonoBehaviour
                     rollBar.value = Mathf.Lerp(rollBar.value, ReturnMousePosition().x, 0.1f);
                 }
                 break;
+            case ControlSystem.gyro:
+
+                if (Input.GetKey(KeyCode.S))
+                {
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, 0, 0.1f);
+                }
+                else if (Input.GetKey(KeyCode.W))
+                {
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, 1, 0.1f);
+                }
+                else
+                {
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, ReturnGyroVec().y, 0.1f);
+                }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    rollBar.value = Mathf.Lerp(rollBar.value, 0, 0.1f);
+                }
+                else if (Input.GetKey(KeyCode.E))
+                {
+                    rollBar.value = Mathf.Lerp(rollBar.value, 1, 0.1f);
+                }
+                else
+                {
+                    rollBar.value = Mathf.Lerp(rollBar.value, ReturnGyroVec().x, 0.1f);
+                }
+                break;
         }    
 
         #region 요축
@@ -127,7 +161,7 @@ public class PlayerControll : MonoBehaviour
         }
         else
         {
-            yawBar.value = Mathf.Lerp(yawBar.value, 0.5f, 0.05f);
+            yawBar.value = Mathf.Lerp(yawBar.value, AutoYawingValue(), 0.05f);
         }
         #endregion
         PlayerInfo.playerInfo.pitchAxis = Mathf.Clamp((pitchBar.value * 2 - 1) * high_G_TurnValue, -3f, 1);
@@ -150,12 +184,36 @@ public class PlayerControll : MonoBehaviour
         }
     }
 
+    public void CounterMeasureToggle()
+    {
+        playerCountermeasure.isActiveCountermeasureSwitch();
+    }
+    public void MissileFire()
+    {
+        PlayerWeaponControl.instance.FireMissile();
+    }
+
     Vector3 ReturnMousePosition()
     {
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = new Vector3(mousePosition.x / SCREEN_X, mousePosition.y / SCREEN_Y, 0);
 
         return mousePosition;
+    }
+
+    Vector3 ReturnGyroVec()
+    {
+        Vector3 contorollVec = Input.acceleration.normalized - startGyroVec;
+        contorollVec = new Vector3(contorollVec.x + 1, contorollVec.y + 1, contorollVec.z + 1) * 0.5f;
+
+        return contorollVec;
+    }
+
+    float AutoYawingValue()
+    {
+        float targetVecX = Rader.rader.ReturnTargetVec().x;
+        targetVecX = Mathf.Clamp(targetVecX * 10, -1, 1);
+        return (targetVecX + 1) * 0.5f;
     }
 
     public CamControl myCam;

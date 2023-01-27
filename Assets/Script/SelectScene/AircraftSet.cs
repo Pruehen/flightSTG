@@ -5,7 +5,7 @@ using TMPro;
 
 public class AircraftSet : MonoBehaviour
 {
-    public static AircraftSet instance;
+    /*public static AircraftSet instance;
 
     public TextMeshProUGUI missileInfoText;
     private void Awake()
@@ -19,7 +19,6 @@ public class AircraftSet : MonoBehaviour
 
         string missileName = infoData.name;
         MissileData missileData = MissileSaveLoadManager.instance.FloatToData(infoData.data);
-        StaticMissileData.missileData = missileData;
 
         string seekerName;
         string bodyName;
@@ -71,5 +70,5 @@ public class AircraftSet : MonoBehaviour
             "항력계수 = " + missileData.defaultDrag.ToString() + "\n" +
             "시커 종류 = " + seekerName + "\n" +
             "동체 크기 = " + bodyName;
-    }
+    }*/
 }

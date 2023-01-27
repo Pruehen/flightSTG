@@ -25,6 +25,6 @@ public class MainSceneManager : MonoBehaviour
 
     public void ToVehicleSelectScene()
     {
-        SceneManager.LoadScene("VehicleSelectScene");
+        SceneManager.LoadScene("GamePlayScene");
     }
 }

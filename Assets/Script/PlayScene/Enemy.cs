@@ -120,11 +120,15 @@ public class Enemy : MonoBehaviour
         gunHitSound.Play();
     }
 
+    public int score = 100;
+
     void Destroyed()
     {
         EnemyManager.instance.EnemyCreate();
 
         EnemyManager.instance.DebriCreate(this.transform.position, this.transform.rotation, rigidbody.velocity);
+
+        MissionSceneManager.instance.ScoreUp(score);
         Destroy(this.gameObject);
     }
 }
