@@ -125,27 +125,27 @@ public class PlayerControll : MonoBehaviour
 
                 if (Input.GetKey(KeyCode.S))
                 {
-                    pitchBar.value = Mathf.Lerp(pitchBar.value, 0, 0.1f);
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, 0, 0.2f);
                 }
                 else if (Input.GetKey(KeyCode.W))
                 {
-                    pitchBar.value = Mathf.Lerp(pitchBar.value, 1, 0.1f);
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, 1, 0.2f);
                 }
                 else
                 {
-                    pitchBar.value = Mathf.Lerp(pitchBar.value, ReturnGyroVec().y, 0.1f);
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, ReturnGyroVec().y, 0.2f);
                 }
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    rollBar.value = Mathf.Lerp(rollBar.value, 0, 0.1f);
+                    rollBar.value = Mathf.Lerp(rollBar.value, 0, 0.2f);
                 }
                 else if (Input.GetKey(KeyCode.E))
                 {
-                    rollBar.value = Mathf.Lerp(rollBar.value, 1, 0.1f);
+                    rollBar.value = Mathf.Lerp(rollBar.value, 1, 0.2f);
                 }
                 else
                 {
-                    rollBar.value = Mathf.Lerp(rollBar.value, ReturnGyroVec().x, 0.1f);
+                    rollBar.value = Mathf.Lerp(rollBar.value, ReturnGyroVec().x, 0.2f);
                 }
                 break;
         }    
@@ -201,19 +201,39 @@ public class PlayerControll : MonoBehaviour
         return mousePosition;
     }
 
+    public float gyroSensitivity = 4f;
     Vector3 ReturnGyroVec()
     {
         Vector3 contorollVec = Input.acceleration.normalized - startGyroVec;
+        contorollVec *= gyroSensitivity;
         contorollVec = new Vector3(contorollVec.x + 1, contorollVec.y + 1, contorollVec.z + 1) * 0.5f;
 
         return contorollVec;
     }
 
+    public void StartVecReset()
+    {
+        startGyroVec = Input.acceleration.normalized;
+    }
+    
     float AutoYawingValue()
     {
-        float targetVecX = Rader.rader.ReturnTargetVec().x;
-        targetVecX = Mathf.Clamp(targetVecX * 10, -1, 1);
-        return (targetVecX + 1) * 0.5f;
+        if (isAutoAim)
+        {
+            float targetVecX = Rader.rader.ReturnTargetVec().x;
+            targetVecX = Mathf.Clamp(targetVecX * 10, -1, 1);
+            return (targetVecX + 1) * 0.5f;
+        }
+        else
+        {
+            return 0.5f;
+        }
+    }
+
+    bool isAutoAim = false;
+    public void isAutoAimToggle()
+    {
+        isAutoAim = !isAutoAim;
     }
 
     public CamControl myCam;

@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
 
     public void EnemyCreate()
     {
-        Vector3 createPosition = new Vector3(Random.Range(-10000, 10000), Random.Range(3000, 8000), Random.Range(-10000, 10000));
+        Vector3 createPosition = new Vector3(Random.Range(-30000, 30000), Random.Range(1000, 10000), Random.Range(-30000, 30000));
         Instantiate(enemy01, this.transform).transform.position = createPosition;
     }
 

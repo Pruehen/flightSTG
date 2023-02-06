@@ -7,7 +7,7 @@ using TMPro;
 public class PlayerInfo : MonoBehaviour
 {
     public GameObject HPBAR;
-    public float dc = 0.03f;//항력계수
+    public float dc = 0.02f;//항력계수
     public float wL;//익면하중 (t/m^2)
     float airPressure = 1;
 
@@ -55,13 +55,13 @@ public class PlayerInfo : MonoBehaviour
             pitchAxis *= Mathf.Clamp((MAX_LIFTPOWER / Mathf.Abs(liftPower)), 0, 1);
         }
         //Debug.Log(pitchAxis);
-        float speedValue = Mathf.Clamp(((rigidbody.velocity.magnitude - 30) * airPressure) * 0.003f, 0, 1);//속도에 반비례한 회전모멘트 감소
+        float speedValue = Mathf.Clamp(((rigidbody.velocity.magnitude - 30) * airPressure) * 0.001f, 0, 1);//속도에 반비례한 회전모멘트 감소
         float aoaValue = 1;
         if (aoa > STALL_AOA)
         {
             aoaValue = Mathf.Clamp(STALL_AOA / aoa, 0, 1);
         }
-        if(pitchAxis > 0)//피치 다운
+        if (pitchAxis > 0)//피치 다운
         {
             rigidbody.AddTorque(this.transform.right * pitchAxis * speedValue * aoaValue * 0.15f * MAX_PITCHMOMENT, ForceMode.Force);
         }
@@ -73,12 +73,12 @@ public class PlayerInfo : MonoBehaviour
         rigidbody.AddTorque(this.transform.forward * -(rollAxis + yawAxis * 0.1f) * speedValue * MAX_ROLLMOMENT, ForceMode.Force);
         rigidbody.AddTorque(this.transform.up * yawAxis * speedValue * MAX_YAWMOMENT, ForceMode.Force);
 
-        if(rigidbody.velocity.magnitude < 50 && !isStall)
+        if (rigidbody.velocity.magnitude < 50 && !isStall)
         {
             isStall = true;
             rigidbody.angularDrag = 1;
         }
-        else if(rigidbody.velocity.magnitude >= 50 && isStall)
+        else if (rigidbody.velocity.magnitude >= 50 && isStall)
         {
             isStall = false;
             rigidbody.angularDrag = 10;
@@ -95,14 +95,29 @@ public class PlayerInfo : MonoBehaviour
         speed = rigidbody.velocity.magnitude;
     }
 
-    [SerializeField] TextMeshProUGUI speedText, heightText, HPPOINT;
+    [SerializeField] TextMeshProUGUI speedText, heightText, gunText, mslText, flrText, dmgText;
+
+    public void GunTextSet(int ammu)
+    {
+        gunText.text = "GUN  " + ammu;
+    }
+    public void MslTextSet(string missile)
+    {
+        mslText.text = "MSL  " + missile;
+    }
+    public void FlrTextSet(int ammu)
+    {
+        flrText.text = "FLR  " + ammu;
+    }
+    public void DmgTextSet(int hp)
+    {
+        dmgText.text = "DMG  " + ((max_hp - hp) * 100 / max_hp).ToString() + "%";
+    }
 
     private void Update()
     {
         speedText.text = (int)(rigidbody.velocity.magnitude * 3.6f) + "km/h";
         heightText.text = (int)(this.transform.position.y) + "m";
-        HpBarColor();
-        HPPOINT.text = "HP " + (int)(hp / 5) + " %";
     }
 
     public float aoa { get; private set; }
@@ -126,11 +141,11 @@ public class PlayerInfo : MonoBehaviour
     {
         if(aoa < -STALL_AOA)
         {
-            cl = -0.5f;
+            cl = -5f;
         }
         else if(aoa >= -STALL_AOA && aoa < 0)
         {
-            cl = Mathf.Lerp(0, -0.5f, -aoa / STALL_AOA);
+            cl = Mathf.Lerp(0, -5f, -aoa / STALL_AOA);
         }
         else if(aoa >= 0 && aoa < STALL_AOA)
         {
@@ -138,7 +153,7 @@ public class PlayerInfo : MonoBehaviour
         }
         else if(aoa >= STALL_AOA)
         {
-            cl = 2.5f;
+            cl = 5f;
         }
         liftPower = Mathf.Pow(rigidbody.velocity.magnitude, 2) * cl * airPressure * 0.5f / wL;
 
@@ -159,26 +174,27 @@ public class PlayerInfo : MonoBehaviour
     {
         if(speed < 400)
         {
-            return Mathf.Lerp(1, 1.5f, speed * 0.0025f) * Mathf.Pow(airPressure, 0.5f);
+            return Mathf.Lerp(1, 1.2f, speed * 0.0025f) * Mathf.Pow(airPressure, 0.5f);
         }
         else
         {
-            return Mathf.Lerp(1.5f, 1, speed * 0.0025f - 1) * Mathf.Pow(airPressure, 0.5f);
+            return Mathf.Lerp(1.2f, 1, speed * 0.0025f - 1) * Mathf.Pow(airPressure, 0.5f);
         }
     }   
 
     public void Hit(float dmg)
     {
         hp -= dmg;
-        Debug.Log(hp);
+        HpBarColorSet();
+        DmgTextSet((int)hp);
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
             MissionSceneManager.instance.ToMainScene();
         }
     }
 
-    public void HpBarColor()
+    public void HpBarColorSet()
     {
         switch (hp / max_hp * (max_hp / 100))
         {

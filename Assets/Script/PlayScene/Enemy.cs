@@ -114,6 +114,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public Vector3 heatLv()
+    {
+        return this.transform.position - this.transform.forward * 3000;
+    }
+
     void GunHitEffect()
     {
         gunHitEffect.Play();

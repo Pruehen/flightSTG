@@ -33,26 +33,26 @@ public class PlayerEffect : MonoBehaviour
         rEngineParticle.gameObject.transform.localPosition = new Vector3(rEnginePosition.x, rEnginePosition.y, 10 - enginePower * 10);
         lEngineParticle.gameObject.transform.localPosition = new Vector3(lEnginePosition.x, lEnginePosition.y, 10 - enginePower * 10);
 
-        if (PlayerInfo.playerInfo.aoa > PlayerInfo.playerInfo.STALL_AOA * 0.9f && !isHighAlpha)
+        if (PlayerInfo.playerInfo.aoa > PlayerInfo.playerInfo.STALL_AOA * 0.3f && !isHighAlpha)
         {
             isHighAlpha = true;
             voltexParticles[0].Play();
             voltexParticles[1].Play();
         }
-        else if (PlayerInfo.playerInfo.aoa <= PlayerInfo.playerInfo.STALL_AOA * 0.9f && isHighAlpha)
+        else if (PlayerInfo.playerInfo.aoa <= PlayerInfo.playerInfo.STALL_AOA * 0.3f && isHighAlpha)
         {
             isHighAlpha = false;
             voltexParticles[0].Stop();
             voltexParticles[1].Stop();
         }
 
-        if (PlayerInfo.playerInfo.aoa > PlayerInfo.playerInfo.STALL_AOA * 0.2f && !isPitching)
+        if (PlayerInfo.playerInfo.aoa > PlayerInfo.playerInfo.STALL_AOA * 0.15f && !isPitching)
         {
             isPitching = true;
             voltexParticles[2].Play();
             voltexParticles[3].Play();
         }
-        else if (PlayerInfo.playerInfo.aoa <= PlayerInfo.playerInfo.STALL_AOA * 0.2f && isPitching)
+        else if (PlayerInfo.playerInfo.aoa <= PlayerInfo.playerInfo.STALL_AOA * 0.15f && isPitching)
         {
             isPitching = false;
             voltexParticles[2].Stop();

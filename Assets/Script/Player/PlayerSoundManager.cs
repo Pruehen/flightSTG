@@ -7,6 +7,7 @@ public class PlayerSoundManager : MonoBehaviour
     public AudioSource engineSound_01;
     public AudioSource engineSound_02;
     public AudioSource gunSound;
+    public AudioSource missileSeekerSound;
     // Start is called before the first frame update
     void Start()
     {

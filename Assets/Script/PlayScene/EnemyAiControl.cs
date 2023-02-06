@@ -172,7 +172,7 @@ public class EnemyAiControl : MonoBehaviour
 
     MissileData GetInstanceMissileData()//작동시간, 1차 부스터, 2차 부스터, 최대기동, 추력, 추적률, 시커각, 항력, 시커타입(0,1,2), 동체타입(0~4)
     {
-        MissileData missileData = new MissileData(10, 5, 0, 180, 150, 20, 90, 0.08f, 0);
+        MissileData missileData = new MissileData(10, 5, 0, 180, 150, 20, 90, 0.08f, 0, 4000, "AIM-9H");
 
         return missileData;
     }

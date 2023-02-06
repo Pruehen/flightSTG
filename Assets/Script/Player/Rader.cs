@@ -6,18 +6,16 @@ using TMPro;
 
 public class Rader : MonoBehaviour
 {
-    const float RADER_FOV = 120;
+    const float RADER_FOV = 70;
     public GameObject targetBox;
     public GameObject enemyManager;
-    public TextMeshProUGUI lengthTmp;
+    public TextMeshProUGUI distanceTmp;
+    public TextMeshProUGUI velocityTmp;
 
     public GameObject radarBox;
     const int RADARBOX_X = 400;
     const int RADARBOX_Y = 300;
 
-    public GameObject radarBar;
-    int radarBarPosition_X = -200;
-    bool barDirection = true;
 
     //public GameObject radarTargetBox;
 
@@ -35,6 +33,7 @@ public class Rader : MonoBehaviour
     }
 
 
+
     // Update is called once per frame
     void Update()
     {
@@ -47,10 +46,16 @@ public class Rader : MonoBehaviour
             viewPos = new Vector3(viewPos.x-0.5f, viewPos.y-0.5f, 0);
             targetBox.transform.localPosition = Camera.main.ViewportToScreenPoint(viewPos);
 
-            lengthTmp.text = ((int)Vector3.Magnitude(target.transform.position - this.transform.position)).ToString();
-
             targetDistance = (target.transform.position - this.transform.position).magnitude;
+
+
             targetAngle = this.transform.InverseTransformDirection(target.transform.position - this.transform.position).normalized;
+            targetMoveVec = target.GetComponent<Rigidbody>().velocity;
+            relativeVelocity = PlayerInfo.playerInfo.speed - this.transform.InverseTransformDirection(targetMoveVec).z;
+
+            distanceTmp.text = ((int)Vector3.Magnitude(target.transform.position - this.transform.position)).ToString();
+            velocityTmp.text = (int)relativeVelocity + "m/s";
+
             TargetForget();
         }
         else
@@ -62,6 +67,10 @@ public class Rader : MonoBehaviour
     float targetPriority = float.MaxValue;
     public float targetDistance = 0;
     public Vector3 targetAngle;
+
+    public Vector3 targetMoveVec;
+    public float relativeVelocity;
+
     void RaderSearch()
     {
         for(int i = 0; i < enemyManager.transform.childCount; i++)
