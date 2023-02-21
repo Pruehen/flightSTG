@@ -13,6 +13,7 @@ public class Missile : MonoBehaviour
     float MAX_TURN_RATE;
     float MAX_BORESITE;
     float DEFAULT_DRAG;
+    bool isActiveGuided;
         
 
     Rigidbody rigidbody;
@@ -29,8 +30,7 @@ public class Missile : MonoBehaviour
     Transform countermeasureManager;
     private void Start()
     {
-        countermeasureManager = CountermeasureManager.instance.transform;
-        InvokeRepeating("CountermeasureCheck", 1, 0.5f);        
+        countermeasureManager = CountermeasureManager.instance.transform;      
     }
 
     GameObject targetObject;
@@ -53,6 +53,23 @@ public class Missile : MonoBehaviour
         MAX_TURN_RATE = missileData.MAX_TURN_RATE;
         MAX_BORESITE = missileData.MAX_BORESITE;
         DEFAULT_DRAG = missileData.defaultDrag;
+        if(missileData.seekerType == 1)
+        {
+            isActiveGuided = false;
+        }
+        else
+        {
+            isActiveGuided = true;
+        }
+
+        InvokeRepeating("CountermeasureCheck", 1, 1f);
+        InvokeRepeating("RandumMissileWarningCount", 1, 1f);
+        
+
+        if (!isActiveGuided)
+        {
+            InvokeRepeating("NewTargetCheck", 1, 1f);
+        }
     }
 
     float activeTime = 0;
@@ -170,6 +187,22 @@ public class Missile : MonoBehaviour
             {
                 targetObject = countermeasure;
             }
+        }
+    }
+    void NewTargetCheck()
+    {
+        originTerget = Rader.rader.target;
+        targetObject = originTerget;
+    }
+    void RandumMissileWarningCount()//적이 미사일을 랜덤으로 확인하게 하는 함수
+    {
+        if (targetObject.GetComponent<EnemyAiControl>() == null)
+            return;
+
+        float randomNum = Random.Range(0, 1);
+        if(randomNum > 0f)
+        {
+            targetObject.GetComponent<EnemyAiControl>().MissileCheck(this.transform.position);
         }
     }
 

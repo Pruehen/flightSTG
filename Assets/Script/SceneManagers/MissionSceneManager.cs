@@ -12,6 +12,7 @@ public class MissionSceneManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        PauseSet(true);
     }
 
     public GameObject pauseWdw;
@@ -26,25 +27,25 @@ public class MissionSceneManager : MonoBehaviour
         {
             Debug.Log(MainSceneManager.Instance.selectedMissionNum);
         }
+        Time.timeScale = 1;
+        Invoke("SoundOn", 0.5f);
+    }
+
+    void SoundOn()
+    {
+        AudioListener.volume = 1;
     }
 
     public void PauseWdwToggle(bool value)
     {
         pauseWdw.SetActive(value);
-        if(value)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
+        PauseSet(value);
     }
 
 
     public void ToMainScene()
     {
-        Time.timeScale = 1;
+        PauseSet(false);
         SceneManager.LoadScene("MainScene");
     }
 
@@ -53,4 +54,18 @@ public class MissionSceneManager : MonoBehaviour
         score += upScore;
         scoreTxt.text = "SCORE " + score;
     }
+
+    public void PauseSet(bool isPause)
+    {
+        if(isPause)
+        {
+            Time.timeScale = 0;
+            AudioListener.volume = 0;
+        }
+        else if(!isPause)
+        {
+            Time.timeScale = 1;
+            AudioListener.volume = 1;
+        }
+    }    
 }

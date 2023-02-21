@@ -42,11 +42,24 @@ public class EnemyAiControl : MonoBehaviour
         idle,
         cruise,
         tracking,
-        evading
+        groundEvading,
+        missileEvading
     }
 
     float groundCheckDistance = 2000;
     [SerializeField] LayerMask layerMask;
+
+    bool missileView = false;
+    Vector3 incomingMissileVec;
+    public void MissileCheck(Vector3 missileVec)
+    {
+        if (missileView == false)
+        {
+            missileView = true;
+            incomingMissileVec = missileVec;
+        }
+    }
+    float missileEvadeCount = 0;
 
     void AiSet()
     {
@@ -75,11 +88,21 @@ public class EnemyAiControl : MonoBehaviour
             if (hit.transform != null)
             {
                 Debug.Log(hit.transform.name);
-                state = State.evading;
+                state = State.groundEvading;
             }
             else
             {
                 state = State.cruise;
+            }
+        }
+
+        if(missileView)
+        {
+            state = State.missileEvading;
+            missileEvadeCount += Time.deltaTime;
+            if (missileEvadeCount >= 5)
+            {
+                missileView = false;
             }
         }
 
@@ -95,8 +118,11 @@ public class EnemyAiControl : MonoBehaviour
             case State.tracking:
                 ControlSet_Tracking();
                 break;
-            case State.evading:
-                ControlSet_Evading();
+            case State.groundEvading:
+                ControlSet_GroundEvading();
+                break;
+            case State.missileEvading:
+                ControlSet_MissileEvading();
                 break;
             default:
                 break;
@@ -159,12 +185,31 @@ public class EnemyAiControl : MonoBehaviour
         }
     }
 
-    void ControlSet_Evading()
+    void ControlSet_GroundEvading()
     {
         RaycastHit upHit;
 
         aimPoint = new Vector3(this.transform.right.y, -1, 0);
 
+
+        mainEnemy.enginePower = 1f;
+        AxisControl();
+    }
+
+    void ControlSet_MissileEvading()
+    {
+        Debug.Log("evading");
+        Vector3 toTargetVec = incomingMissileVec - this.transform.position;
+        Vector3 toTargetLocalVec = transform.InverseTransformDirection(toTargetVec);
+
+        if(toTargetLocalVec.z >= 0)//미사일이 전방에 있음
+        {
+            aimPoint = new Vector3(Mathf.Clamp(-toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(-toTargetLocalVec.y, -1, 1), 0);
+        }
+        else if(toTargetLocalVec.z < 0)//미사일이 후방에 있음
+        {
+            aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(toTargetLocalVec.y, -1, 1), 0);
+        }
 
         mainEnemy.enginePower = 1f;
         AxisControl();

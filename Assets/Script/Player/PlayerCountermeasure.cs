@@ -17,9 +17,9 @@ public class PlayerCountermeasure : MonoBehaviour
     }
 
     bool isActiveCountermeasure = false;
-    public void isActiveCountermeasureSwitch()
+    public void SetActiveCountermeasureSwitch(bool value)
     {
-        isActiveCountermeasure = !isActiveCountermeasure;
+        isActiveCountermeasure = value;
     }
 
     float dispenseTime = 0.15f;

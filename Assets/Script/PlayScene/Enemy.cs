@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
 
     void Destroyed()
     {
-        EnemyManager.instance.EnemyCreate();
+        //EnemyManager.instance.EnemyCreate();
 
         EnemyManager.instance.DebriCreate(this.transform.position, this.transform.rotation, rigidbody.velocity);
 

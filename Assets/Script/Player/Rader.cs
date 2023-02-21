@@ -63,6 +63,10 @@ public class Rader : MonoBehaviour
             targetBox.SetActive(false);
         }
     }
+    public float TargetDopplerLv()
+    {
+        return targetDistance / Mathf.Abs(relativeVelocity * 0.003f);
+    }
 
     float targetPriority = float.MaxValue;
     public float targetDistance = 0;

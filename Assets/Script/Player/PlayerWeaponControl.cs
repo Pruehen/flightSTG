@@ -39,7 +39,7 @@ public class PlayerWeaponControl : MonoBehaviour
     void Start()
     {
         haveMissileDatas[0] = new MissileData(8, 5.3f, 0, 300, 160, 30, 60, 0.05f, 0, 6000, "AIM-9M");
-        haveMissileDatas[1] = new MissileData(25, 4f, 11, 200, 120, 30, 60, 0.03f, 1, 30000, "AIM-7M");
+        haveMissileDatas[1] = new MissileData(25, 4f, 11, 200, 120, 30, 60, 0.03f, 1, 20000, "AIM-7M");
 
         for (int i = 0; i < INTED_MISSILE_COUNT; i++)
         {
@@ -107,7 +107,14 @@ public class PlayerWeaponControl : MonoBehaviour
             Vector3 viewPos;
             if (Rader.rader.target != null)
             {
-                seeLv = useMissileData.sensitivity - Vector3.Magnitude(Rader.rader.target.GetComponent<Enemy>().heatLv() - this.transform.position);
+                if (useMissileData.seekerType == 0)
+                {
+                    seeLv = useMissileData.sensitivity - Vector3.Magnitude(Rader.rader.target.GetComponent<Enemy>().heatLv() - this.transform.position);
+                }
+                else if(useMissileData.seekerType == 1)
+                {
+                    seeLv = useMissileData.sensitivity - Rader.rader.TargetDopplerLv();
+                }
 
                 viewPos = Camera.main.WorldToViewportPoint(Rader.rader.target.transform.position);
             }
@@ -140,13 +147,16 @@ public class PlayerWeaponControl : MonoBehaviour
     {
         seekerOn = value;
         missileSeeker.gameObject.SetActive(value);
-        if (value)
+        if (useMissileData.seekerType == 0)
         {
-            playerSoundManager.missileSeekerSound.Play();
-        }
-        else
-        {
-            playerSoundManager.missileSeekerSound.Stop();
+            if (value)
+            {
+                playerSoundManager.missileSeekerSound.Play();
+            }
+            else
+            {
+                playerSoundManager.missileSeekerSound.Stop();
+            }
         }
     }
 
@@ -158,7 +168,7 @@ public class PlayerWeaponControl : MonoBehaviour
     {
         useMissileNum++;
 
-        if(useMissileNum > 2)
+        if(useMissileNum > 1)
         {
             useMissileNum = 0;
         }

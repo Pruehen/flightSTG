@@ -180,13 +180,13 @@ public class PlayerControll : MonoBehaviour
 
         if(Input.GetKeyDown("f"))
         {
-            playerCountermeasure.isActiveCountermeasureSwitch();
+            playerCountermeasure.SetActiveCountermeasureSwitch(true);
         }
     }
 
-    public void CounterMeasureToggle()
+    public void CounterMeasureSet(bool value)
     {
-        playerCountermeasure.isActiveCountermeasureSwitch();
+        playerCountermeasure.SetActiveCountermeasureSwitch(value);
     }
     public void MissileFire()
     {
@@ -201,7 +201,7 @@ public class PlayerControll : MonoBehaviour
         return mousePosition;
     }
 
-    public float gyroSensitivity = 4f;
+    public float gyroSensitivity = 10f;
     Vector3 ReturnGyroVec()
     {
         Vector3 contorollVec = Input.acceleration.normalized - startGyroVec;
