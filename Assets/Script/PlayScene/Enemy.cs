@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    Rigidbody rigidbody;
+    public Rigidbody rigidbody;
     EnemyAiControl aiControl;
 
     private void Awake()

@@ -65,7 +65,7 @@ public class Rader : MonoBehaviour
     }
     public float TargetDopplerLv()
     {
-        return targetDistance / Mathf.Abs(relativeVelocity * 0.003f);
+        return targetDistance / Mathf.Abs(this.transform.InverseTransformDirection(targetMoveVec).z * 0.003f);
     }
 
     float targetPriority = float.MaxValue;
@@ -82,6 +82,10 @@ public class Rader : MonoBehaviour
             GameObject temp = enemyManager.transform.GetChild(i).gameObject;
             float tempPriority;
             tempPriority = ((temp.transform.position - this.transform.position).magnitude * 1) * (Vector3.Angle(this.transform.forward, (temp.transform.position - this.transform.position)));
+            if(this.transform.InverseTransformDirection(temp.transform.position - this.transform.position).z < 0)
+            {
+                tempPriority = float.MaxValue;
+            }
 
             if (targetPriority > tempPriority)
             {

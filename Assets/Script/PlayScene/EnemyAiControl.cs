@@ -20,10 +20,14 @@ public class EnemyAiControl : MonoBehaviour
         missileManager = GameObject.Find("EnemyActiveMissileManager");
 
         mainEnemy = GetComponent<Enemy>();
+        thisCountermeasure = GetComponent<EnemyCountermeasure>();
+
         rigidbody = gameObject.GetComponent<Rigidbody>();
         targetPosition = new Vector3(0, 4000, 0);
 
         target_Player = PlayerInfo.playerInfo.transform;
+
+        
     }
 
     State state = State.idle;
@@ -196,6 +200,8 @@ public class EnemyAiControl : MonoBehaviour
         AxisControl();
     }
 
+    EnemyCountermeasure thisCountermeasure;
+
     void ControlSet_MissileEvading()
     {
         Debug.Log("evading");
@@ -204,15 +210,16 @@ public class EnemyAiControl : MonoBehaviour
 
         if(toTargetLocalVec.z >= 0)//미사일이 전방에 있음
         {
-            aimPoint = new Vector3(Mathf.Clamp(-toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(-toTargetLocalVec.y, -1, 1), 0);
+            aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.z, -1, 1), Mathf.Clamp(-toTargetLocalVec.z, -1, 1), 0);
         }
         else if(toTargetLocalVec.z < 0)//미사일이 후방에 있음
         {
-            aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(toTargetLocalVec.y, -1, 1), 0);
+            aimPoint = new Vector3(Mathf.Clamp(-toTargetLocalVec.z, -1, 1), Mathf.Clamp(toTargetLocalVec.z, -1, 1), 0);
         }
 
-        mainEnemy.enginePower = 1f;
+        mainEnemy.enginePower = 2f;
         AxisControl();
+        thisCountermeasure.SetActiveCountermeasureOnTrigger();
     }
 
     MissileData GetInstanceMissileData()//작동시간, 1차 부스터, 2차 부스터, 최대기동, 추력, 추적률, 시커각, 항력, 시커타입(0,1,2), 동체타입(0~4)

@@ -80,7 +80,7 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(rigidbody.velocity.magnitude);
+        //Debug.Log(rigidbody.velocity.magnitude);
 
         airPressure = Mathf.Pow(1 - ((this.transform.position.y / 300) / 145.45f), 5.2561f);
         rigidbody.drag = DEFAULT_DRAG * airPressure * ((rigidbody.velocity.magnitude + 700) / 700);
@@ -196,12 +196,15 @@ public class Missile : MonoBehaviour
     }
     void RandumMissileWarningCount()//적이 미사일을 랜덤으로 확인하게 하는 함수
     {
-        if (targetObject.GetComponent<EnemyAiControl>() == null)
+        if (targetObject == null || targetObject.GetComponent<EnemyAiControl>() == null)
             return;
 
-        float randomNum = Random.Range(0, 1);
-        if(randomNum > 0f)
+
+        float randomNum = Random.Range(0f, 1f);
+
+        if(randomNum >= (targetVec - this.transform.position).magnitude * 0.0001f)
         {
+            Debug.Log((targetVec - this.transform.position).magnitude * 0.0001f);
             targetObject.GetComponent<EnemyAiControl>().MissileCheck(this.transform.position);
         }
     }

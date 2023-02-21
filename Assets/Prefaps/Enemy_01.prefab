@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 1998420839463766307}
   - component: {fileID: 4615197142589064955}
   - component: {fileID: 1301313041607458162}
+  - component: {fileID: 2006222865184752695}
   m_Layer: 8
   m_Name: Enemy_01
   m_TagString: Untagged
@@ -316,6 +317,20 @@ MonoBehaviour:
   gunHitEffect: {fileID: 6916423216920930069}
   gunHitSound: {fileID: 292742896869559799}
   score: 250
+--- !u!114 &2006222865184752695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998420839463766304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1358c885d7a9c14eb3b529ee4ee400d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countermeasure: {fileID: 5871992623890254544, guid: a888dde1cf319af4c833ddd89f72831e, type: 3}
+  countermeasureManager: {fileID: 0}
 --- !u!1 &1998799329166015630
 GameObject:
   m_ObjectHideFlags: 0

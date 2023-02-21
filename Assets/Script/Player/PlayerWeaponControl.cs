@@ -39,7 +39,7 @@ public class PlayerWeaponControl : MonoBehaviour
     void Start()
     {
         haveMissileDatas[0] = new MissileData(8, 5.3f, 0, 300, 160, 30, 60, 0.05f, 0, 6000, "AIM-9M");
-        haveMissileDatas[1] = new MissileData(25, 4f, 11, 200, 120, 30, 60, 0.03f, 1, 20000, "AIM-7M");
+        haveMissileDatas[1] = new MissileData(25, 4f, 11, 200, 120, 30, 60, 0.03f, 1, 40000, "AIM-7M");
 
         for (int i = 0; i < INTED_MISSILE_COUNT; i++)
         {
