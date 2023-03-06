@@ -62,13 +62,13 @@ public class Missile : MonoBehaviour
             isActiveGuided = true;
         }
 
-        InvokeRepeating("CountermeasureCheck", 1, 1f);
-        InvokeRepeating("RandumMissileWarningCount", 1, 1f);
+        InvokeRepeating("CountermeasureCheck", 1, 0.5f);
+        InvokeRepeating("RandumMissileWarningCount", 1, 0.5f);
         
 
         if (!isActiveGuided)
         {
-            InvokeRepeating("NewTargetCheck", 1, 1f);
+            InvokeRepeating("NewTargetCheck", 1, 0.5f);
         }
     }
 
@@ -171,6 +171,7 @@ public class Missile : MonoBehaviour
         }
     }
 
+    float countermeasureSensitivity = 2f;
     void CountermeasureCheck()
     {
         if (countermeasureManager == null)
@@ -183,7 +184,7 @@ public class Missile : MonoBehaviour
         {
             GameObject countermeasure = countermeasureManager.GetChild(i).gameObject;
             float countermeasureAngle = Vector3.Angle(this.transform.forward, countermeasure.transform.position - this.transform.position);
-            if (Vector3.Angle(this.transform.forward, targetVec - this.transform.position) > countermeasureAngle)
+            if (Vector3.Angle(this.transform.forward, targetVec - this.transform.position) * countermeasureSensitivity > countermeasureAngle)
             {
                 targetObject = countermeasure;
             }
@@ -202,9 +203,9 @@ public class Missile : MonoBehaviour
 
         float randomNum = Random.Range(0f, 1f);
 
-        if(randomNum >= (targetVec - this.transform.position).magnitude * 0.0001f)
+        if (randomNum >= (targetVec - this.transform.position).magnitude * 0.0001f + (100 - GameManager.instance.difficulty) * 0.01f)
         {
-            Debug.Log((targetVec - this.transform.position).magnitude * 0.0001f);
+            //Debug.Log((targetVec - this.transform.position).magnitude * 0.0001f);
             targetObject.GetComponent<EnemyAiControl>().MissileCheck(this.transform.position);
         }
     }

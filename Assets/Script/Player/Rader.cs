@@ -65,7 +65,7 @@ public class Rader : MonoBehaviour
     }
     public float TargetDopplerLv()
     {
-        return targetDistance / Mathf.Abs(this.transform.InverseTransformDirection(targetMoveVec).z * 0.003f);
+        return targetDistance / (Mathf.Abs(this.transform.InverseTransformDirection(targetMoveVec).z * 0.003f) + 200);
     }
 
     float targetPriority = float.MaxValue;

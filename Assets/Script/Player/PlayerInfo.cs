@@ -21,9 +21,11 @@ public class PlayerInfo : MonoBehaviour
     public float yawAxis { get; set; }//-1~1
     public float MAX_YAWMOMENT = 5;
 
-    public float MAX_LIFTPOWER = 40f;
+    public float MAX_LIFTPOWER = 15f;
     public float max_hp;
     float hp;
+
+    public float reloadTime;
 
     public static PlayerInfo playerInfo;
     private void Awake()
@@ -35,9 +37,27 @@ public class PlayerInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AircraftInit();
+
         rigidbody = this.GetComponent<Rigidbody>();
         rigidbody.velocity = new Vector3(0, 0, 200);
         hp = max_hp;
+    }
+
+    void AircraftInit()
+    {
+        Aircraft refData = AircraftManager.instance.useStaticData;
+
+        dc = refData.dc;
+        wL = refData.wL * (1/refData.AircraftUpgradeData.lightnessValue);
+        MAX_POWER = refData.MAX_POWER * refData.AircraftUpgradeData.engineValue;
+        MAX_PITCHMOMENT = refData.MAX_PITCHMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
+        MAX_ROLLMOMENT = refData.MAX_ROLLMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
+        MAX_YAWMOMENT = refData.MAX_YAWMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
+        MAX_LIFTPOWER = refData.MAX_LIFTPOWER * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
+        max_hp = refData.max_hp * (refData.AircraftUpgradeData.armorValue);
+        STALL_AOA = refData.STALL_AOA;
+        reloadTime = refData.reloadTime;
     }
 
     bool isStall = false;
@@ -95,7 +115,8 @@ public class PlayerInfo : MonoBehaviour
         speed = rigidbody.velocity.magnitude;
     }
 
-    [SerializeField] TextMeshProUGUI speedText, heightText, gunText, mslText, flrText, dmgText;
+    [SerializeField] TextMeshProUGUI speedText, heightText, gunText, mslText, flrText, dmgText, aoaText, gforceText, maxGText;
+    public GameObject velocityVector, aircraftCenter;
 
     public void GunTextSet(int ammu)
     {
@@ -111,13 +132,24 @@ public class PlayerInfo : MonoBehaviour
     }
     public void DmgTextSet(int hp)
     {
-        dmgText.text = "DMG  " + ((max_hp - hp) * 100 / max_hp).ToString() + "%";
+        dmgText.text = "DMG  " + ((int)(max_hp - hp) * 100 / (int)max_hp).ToString() + "%";
     }
 
     private void Update()
     {
         speedText.text = (int)(rigidbody.velocity.magnitude * 3.6f) + "km/h";
         heightText.text = (int)(this.transform.position.y) + "m";
+        aoaText.text = "A " + string.Format("{0:N0}", aoa);
+        gforceText.text = "G " + string.Format("{0:N0}", liftPower);
+        maxGText.text = "90";
+
+        Vector3 viewPos2 = Camera.main.WorldToViewportPoint(this.transform.position + rigidbody.velocity);
+        viewPos2 = new Vector3(viewPos2.x - 0.5f, viewPos2.y - 0.5f, 0);
+        velocityVector.transform.localPosition = Camera.main.ViewportToScreenPoint(viewPos2);
+
+        Vector3 viewPos1 = Camera.main.WorldToViewportPoint(this.transform.position + this.transform.forward * 1000);
+        viewPos1 = new Vector3(viewPos1.x - 0.5f, viewPos1.y - 0.5f, 0);
+        aircraftCenter.transform.localPosition = Camera.main.ViewportToScreenPoint(viewPos1);
     }
 
     public float aoa { get; private set; }
@@ -141,19 +173,19 @@ public class PlayerInfo : MonoBehaviour
     {
         if(aoa < -STALL_AOA)
         {
-            cl = -5f;
+            cl = -3f;
         }
         else if(aoa >= -STALL_AOA && aoa < 0)
         {
-            cl = Mathf.Lerp(0, -5f, -aoa / STALL_AOA);
+            cl = Mathf.Lerp(0, -3f, -aoa / STALL_AOA);
         }
         else if(aoa >= 0 && aoa < STALL_AOA)
         {
-            cl = Mathf.Lerp(0, 5f, aoa / STALL_AOA);
+            cl = Mathf.Lerp(0, 3f, aoa / STALL_AOA);
         }
         else if(aoa >= STALL_AOA)
         {
-            cl = 5f;
+            cl = 3f;
         }
         liftPower = Mathf.Pow(rigidbody.velocity.magnitude, 2) * cl * airPressure * 0.5f / wL;
 
@@ -190,7 +222,7 @@ public class PlayerInfo : MonoBehaviour
 
         if (hp <= 0)
         {
-            MissionSceneManager.instance.ToMainScene();
+            MissionSceneManager.instance.GameEnd(false);
         }
     }
 
@@ -219,11 +251,13 @@ public class PlayerInfo : MonoBehaviour
         }
     }
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Ground")
         {
-            MissionSceneManager.instance.ToMainScene();
+            MissionSceneManager.instance.GameEnd(false);
         }
     }
 }

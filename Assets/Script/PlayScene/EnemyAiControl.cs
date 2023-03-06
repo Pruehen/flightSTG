@@ -153,8 +153,8 @@ public class EnemyAiControl : MonoBehaviour
 
     public GameObject missile;
     GameObject missileManager;
-    float missileTime = 5;
-    public float missileCoolTime = 5f;
+    float missileTime = 10;
+    public float missileCoolTime = 10f;
     void ControlSet_Tracking()
     {
         Vector3 toTargetVec = target_Player.position - this.transform.position;
@@ -166,11 +166,15 @@ public class EnemyAiControl : MonoBehaviour
         else
         {
             Vector3 toTargetLocalVec = transform.InverseTransformDirection(toTargetVec);
-            if(toTargetLocalVec.z >= 0)
+            if(toTargetLocalVec.z >= 0)//타겟이 전방에 있을 시, 트래킹 시도
             {
                 aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(-toTargetLocalVec.y * 0.01f, -1, 1), Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1));
             }
-            else
+            else if(Vector3.Magnitude(toTargetVec) < 3000)//evade
+            {
+                aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x, -1, 1), 0, 0);
+            }
+            else//reEntry
             {
                 aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x, -1, 1), -1, 0);
             }
@@ -181,7 +185,7 @@ public class EnemyAiControl : MonoBehaviour
 
             if (Vector3.Magnitude(toTargetVec) < 6000 && missileTime <= 0 && Vector3.Angle(this.transform.forward, toTargetVec) < 10)
             {
-                missileTime = missileCoolTime;
+                missileTime = 10;
 
                 Missile firedMissile = Instantiate(missile, this.transform.position, this.transform.rotation, missileManager.transform).GetComponent<Missile>();
                 firedMissile.Init(rigidbody, target_Player.gameObject, GetInstanceMissileData());
@@ -210,11 +214,11 @@ public class EnemyAiControl : MonoBehaviour
 
         if(toTargetLocalVec.z >= 0)//미사일이 전방에 있음
         {
-            aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.z, -1, 1), Mathf.Clamp(-toTargetLocalVec.z, -1, 1), 0);
+            aimPoint = new Vector3(Mathf.Clamp(this.transform.up.y, -1, 1), Mathf.Clamp(-toTargetLocalVec.z, -1, 1), 0);
         }
         else if(toTargetLocalVec.z < 0)//미사일이 후방에 있음
         {
-            aimPoint = new Vector3(Mathf.Clamp(-toTargetLocalVec.z, -1, 1), Mathf.Clamp(toTargetLocalVec.z, -1, 1), 0);
+            aimPoint = new Vector3(Mathf.Clamp(this.transform.up.y, -1, 1), Mathf.Clamp(toTargetLocalVec.z, -1, 1), 0);
         }
 
         mainEnemy.enginePower = 2f;

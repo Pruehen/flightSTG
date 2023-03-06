@@ -10,7 +10,7 @@ public class PlayerWeaponControl : MonoBehaviour
     public GameObject gun;
     ParticleSystem gunMuzzleEffect;
 
-    const int INTED_MISSILE_COUNT = 6;
+    const int INTED_MISSILE_COUNT = 4;
     public Transform[] missilePoint = new Transform[INTED_MISSILE_COUNT];
     float[] missileCooldown = new float[INTED_MISSILE_COUNT];
     bool[] isCanFireMissile = new bool[INTED_MISSILE_COUNT];
@@ -38,8 +38,8 @@ public class PlayerWeaponControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        haveMissileDatas[0] = new MissileData(8, 5.3f, 0, 300, 160, 30, 60, 0.05f, 0, 6000, "AIM-9M");
-        haveMissileDatas[1] = new MissileData(25, 4f, 11, 200, 120, 30, 60, 0.03f, 1, 40000, "AIM-7M");
+        haveMissileDatas[0] = AircraftManager.instance.useMissileDatas[0];
+        haveMissileDatas[1] = AircraftManager.instance.useMissileDatas[1];
 
         for (int i = 0; i < INTED_MISSILE_COUNT; i++)
         {
@@ -53,13 +53,12 @@ public class PlayerWeaponControl : MonoBehaviour
 
         intedMissileDatas[0] = haveMissileDatas[0];
         intedMissileDatas[1] = haveMissileDatas[1];
-        intedMissileDatas[2] = haveMissileDatas[1];
-        for(int i = (int)(INTED_MISSILE_COUNT*0.5f); i < INTED_MISSILE_COUNT; i++)
-        {
-            intedMissileDatas[i] = intedMissileDatas[INTED_MISSILE_COUNT - i - 1];
-        }
+        intedMissileDatas[2] = haveMissileDatas[0];
+        intedMissileDatas[3] = haveMissileDatas[1];
 
-        useMissileData = intedMissileDatas[0];
+
+        useMissileData = haveMissileDatas[0];
+        PlayerInfo.playerInfo.MslTextSet(useMissileData.missileName);
 
         missileSeeker.gameObject.SetActive(false);
     }
@@ -111,7 +110,7 @@ public class PlayerWeaponControl : MonoBehaviour
                 {
                     seeLv = useMissileData.sensitivity - Vector3.Magnitude(Rader.rader.target.GetComponent<Enemy>().heatLv() - this.transform.position);
                 }
-                else if(useMissileData.seekerType == 1)
+                else if(useMissileData.seekerType != 0)
                 {
                     seeLv = useMissileData.sensitivity - Rader.rader.TargetDopplerLv();
                 }
@@ -173,7 +172,7 @@ public class PlayerWeaponControl : MonoBehaviour
             useMissileNum = 0;
         }
 
-        useMissileData = intedMissileDatas[useMissileNum];
+        useMissileData = haveMissileDatas[useMissileNum];
 
         PlayerInfo.playerInfo.MslTextSet(useMissileData.missileName);
     }
@@ -190,36 +189,34 @@ public class PlayerWeaponControl : MonoBehaviour
 
         GameObject selectedMissile = aim9_Model;
 
-        index = 0;
+        index = FirePointSet();
 
-        firePoint = FirePointSet(index);
-        if (firePoint == Vector3.zero)
-        {
-            index = 5;
-            firePoint = FirePointSet(index);
-        }
-        if (firePoint == Vector3.zero)
-        {
+        if (index == -1)
             return;
-        }
+
+        firePoint = missilePoint[index].position;
 
         Missile firedMissile = Instantiate(selectedMissile, firePoint, this.transform.rotation).GetComponent<Missile>();
         firedMissile.Init(GetComponent<Rigidbody>(), Rader.rader.target, useMissileData);
         missilePoint[index].gameObject.SetActive(false);
         isCanFireMissile[index] = false;
-        missileCooldown[index] = 4;
-        maxMissileCool = 4;
+        missileCooldown[index] = PlayerInfo.playerInfo.reloadTime;
+        maxMissileCool = PlayerInfo.playerInfo.reloadTime;
     }
 
-    Vector3 FirePointSet(int index)
+    int FirePointSet()
     {
-        if(missilePoint[index].gameObject.activeSelf)
+        if(missilePoint[useMissileNum].gameObject.activeSelf)
         {
-            return missilePoint[index].position;
+            return useMissileNum;
+        }
+        else if(missilePoint[useMissileNum + 2].gameObject.activeSelf)
+        {
+            return useMissileNum + 2;
         }
         else
         {
-            return Vector3.zero;
+            return -1;
         }
     }
 }

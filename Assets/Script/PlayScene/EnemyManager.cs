@@ -14,14 +14,15 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemy01_Debri;
     // Start is called before the first frame update
 
-    int createEnemyCount = 5;
-    int destroedEnemyCount = 0;
+    int createEnemyCount;
     void Start()
     {
-        for (int i = 0; i < createEnemyCount; i++)
+        createEnemyCount = (int)GameManager.instance.difficulty + 2;
+        for (int i = 0; i < Mathf.Clamp(10, 0, createEnemyCount); i++)
         {
             EnemyCreate();
         }
+        createEnemyCount -= 10;
     }
 
     // Update is called once per frame
@@ -32,22 +33,26 @@ public class EnemyManager : MonoBehaviour
 
     public void EnemyCreate()
     {
-        Vector3 createPosition = new Vector3(Random.Range(-30000, 30000), Random.Range(1000, 10000), Random.Range(-30000, 30000));
+        float createRadius = 10000 + (int)GameManager.instance.difficulty * 1000;
+
+        Vector3 createPosition = new Vector3(Random.Range(-createRadius, createRadius), Random.Range(1000, 10000), Random.Range(-createRadius, createRadius));
         Instantiate(enemy01, this.transform).transform.position = createPosition;
     }
 
     public void EnemyDestroy()
     {
-        destroedEnemyCount++;
-        if(destroedEnemyCount >= createEnemyCount)
+        Debug.Log(this.transform.childCount);
+
+        if (createEnemyCount > 0)
         {
-            GameClear();
+            EnemyCreate();
+            createEnemyCount--;
         }
-    }
-
-    void GameClear()
-    {
-
+        else if(this.transform.childCount == 1)
+        {
+            
+            MissionSceneManager.instance.GameEnd(true);
+        }
     }
 
     public void DebriCreate(Vector3 position, Quaternion rotation, Vector3 velocity)

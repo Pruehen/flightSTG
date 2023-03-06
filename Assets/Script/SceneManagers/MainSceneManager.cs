@@ -9,17 +9,17 @@ public class MainSceneManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        PlayerPrefs.Save();
     }
 
     public GameObject ExitWdn;//'종료하시겠습니까?' 창
     public GameObject SettingWdw;//설정 창
     public GameObject MissionSelectWdw;//미션 선택 창
-
-    public int selectedMissionNum = 0;
+    public GameObject HangerWdw;//격납고 창    
 
     private void Start()
     {
-        selectedMissionNum = 0;
+
     }
 
     public void ExitWdnToggle(bool value)
@@ -37,14 +37,19 @@ public class MainSceneManager : MonoBehaviour
         MissionSelectWdw.SetActive(value);
     }
 
+    public void HangerWdwToggle(bool value)
+    {
+        HangerWdw.SetActive(value);
+    }
+
     public void GameExit()
     {
+        PlayerPrefs.Save();
         Application.Quit();
     }
 
-    public void ToPlayScene(int selectMission)
+    public void ToPlayScene()
     {
-        selectedMissionNum = selectMission;
         SceneManager.LoadScene("GamePlayScene");
     }
 }

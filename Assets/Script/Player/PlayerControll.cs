@@ -18,7 +18,7 @@ public class PlayerControll : MonoBehaviour
     {
         controlSystem = ControlSystem.gyro;
 
-        startGyroVec = Input.acceleration.normalized;
+        startGyroVec = new Vector3(PlayerPrefs.GetFloat("GyroVecX"), PlayerPrefs.GetFloat("GyroVecY"), PlayerPrefs.GetFloat("GyroVecZ"));
         //playerCountermeasure = 
     }
     const int SCREEN_X = 1920;
@@ -201,12 +201,12 @@ public class PlayerControll : MonoBehaviour
         return mousePosition;
     }
 
-    public float gyroSensitivity = 10f;
+    //public float gyroSensitivity = 10f;
     Vector3 ReturnGyroVec()
     {
         Vector3 contorollVec = Input.acceleration.normalized - startGyroVec;
-        contorollVec *= gyroSensitivity;
-        contorollVec = new Vector3(contorollVec.x + 1, contorollVec.y + 1, contorollVec.z + 1) * 0.5f;
+        contorollVec *= GameManager.instance.controlSencitivity;//gyroSensitivity
+        contorollVec = new Vector3(Mathf.Clamp(contorollVec.x, -1, 1) + 1, Mathf.Clamp(contorollVec.y, -1, 1) + 1, Mathf.Clamp(contorollVec.z, -1, 1) + 1) * 0.5f;
 
         return contorollVec;
     }
@@ -214,11 +214,14 @@ public class PlayerControll : MonoBehaviour
     public void StartVecReset()
     {
         startGyroVec = Input.acceleration.normalized;
+        PlayerPrefs.SetFloat("GyroVecX", startGyroVec.x);
+        PlayerPrefs.SetFloat("GyroVecY", startGyroVec.y);
+        PlayerPrefs.SetFloat("GyroVecZ", startGyroVec.z);
     }
     
     float AutoYawingValue()
     {
-        if (isAutoAim)
+        if (GameManager.instance.autoAim)
         {
             float targetVecX = Rader.rader.ReturnTargetVec().x;
             targetVecX = Mathf.Clamp(targetVecX * 10, -1, 1);

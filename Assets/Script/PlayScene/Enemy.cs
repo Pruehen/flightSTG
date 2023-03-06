@@ -132,6 +132,7 @@ public class Enemy : MonoBehaviour
         //EnemyManager.instance.EnemyCreate();
 
         EnemyManager.instance.DebriCreate(this.transform.position, this.transform.rotation, rigidbody.velocity);
+        EnemyManager.instance.EnemyDestroy();
 
         MissionSceneManager.instance.ScoreUp(score);
         Destroy(this.gameObject);

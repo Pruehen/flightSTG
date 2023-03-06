@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080aab505c34e714990ec78d189c9ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
   max_Hp: 100
   gunHitEffect: {fileID: 6916423216920930069}
   gunHitSound: {fileID: 292742896869559799}
@@ -330,7 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countermeasure: {fileID: 5871992623890254544, guid: a888dde1cf319af4c833ddd89f72831e, type: 3}
-  countermeasureManager: {fileID: 0}
 --- !u!1 &1998799329166015630
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,6 +862,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1998420839463766305}
     m_Modifications:
+    - target: {fileID: 4540472269230686241, guid: 2c01265aa15890242bcb6ae0a87e1933, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 458251134700568823, guid: 473bcd2881a21894b82a7917ae7d8459, type: 2}
     - target: {fileID: 7272364292937994585, guid: 2c01265aa15890242bcb6ae0a87e1933, type: 3}
       propertyPath: looping
       value: 1
