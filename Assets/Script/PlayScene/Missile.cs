@@ -171,7 +171,7 @@ public class Missile : MonoBehaviour
         }
     }
 
-    float countermeasureSensitivity = 0.5f;
+    float countermeasureSensitivity = 1f;
     void CountermeasureCheck()
     {
         if (countermeasureManager == null)
