@@ -1,0 +1,25 @@
+HQ Hangar Free
+
+This package works only in HDRP, and in Unity version 2020.2.2f1 and higher.
+
+If you need URP or Standard Render Pipeline version you'll have to purchase it separately.
+
+Hangar environment with detailed interior and exterior.
+
+Project includes 5 hangar parts, and a concrete floor.
+High quality textures - 2048x2048 pixels (Albedo, Mask and Normal map)
+
+
+Hangar_part_01 - 8457 tris
+Hangar_part_01_glass - 132 tris
+
+Hangar_part_02 - 5176 tris
+Hangar_part_02_glass - 124 tris
+
+Hangar_part_03 - 4340 tris
+Hangar_part_03_glass - 72 tris
+
+Hangar_part_04 - 5798 tris
+
+Hangar_part_05 - 8409 tris
+Hangar_part_05_glass - 132 tris

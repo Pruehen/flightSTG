@@ -1,41 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class JoyStick : MonoBehaviour
+public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject stick;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private RectTransform lever;
+    private RectTransform rectTransform;
+    // 추가
+    [SerializeField, Range(10f, 150f)]
+    private float leverRange;
+
+    private Vector2 inputVector;    // 추가
+    private bool isInput;    // 추가
+
+    private void Awake()
     {
-        
-    }
+        rectTransform = GetComponent<RectTransform>();
 
-
-    private Touch tempTouchs;
-    private Vector3 touchedPos;
-    private bool touchOn;
-
-    // Update is called once per frame
-    void Update()
-    {
-        /*if(Input.touchCount > 0)
+        if (!GameManager.instance.joyStickUse)
         {
-            for (int i = 0; i < Input.touchCount; i++)
-            {
-                stick.transform.position = Input.GetTouch(i).position;
-                Debug.Log(Input.GetTouch(i).position);
-                stick.transform.localPosition = new Vector3(Mathf.Clamp(stick.transform.localPosition.x, -100, 100), Mathf.Clamp(stick.transform.localPosition.y, -100, 100), 0);
-            }
+            this.gameObject.SetActive(false);
         }
-        else if(Input.touchCount <= 0)
+        else
         {
-            stick.transform.localPosition = Vector3.Lerp(stick.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
-        }*/
+            this.gameObject.SetActive(true);
+        }
     }
 
-    public Vector2 JoyPosition()
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        return new Vector2(stick.transform.localPosition.x + 100, stick.transform.localPosition.y + 100) * 0.005f;
+        var inputDir = eventData.position - rectTransform.anchoredPosition;
+        //추가
+        var clampedDir = inputDir.magnitude < leverRange ?
+            inputDir : inputDir.normalized * leverRange;
+
+        // lever.anchoredPosition = inputDir;
+        lever.anchoredPosition = clampedDir;    // 변경
+
+        ControlJoystickLever(eventData);  // 추가
+        isInput = true;    // 추가
+    }
+
+    // 오브젝트를 클릭해서 드래그 하는 도중에 들어오는 이벤트
+    // 하지만 클릭을 유지한 상태로 마우스를 멈추면 이벤트가 들어오지 않음    
+    public void OnDrag(PointerEventData eventData)
+    {
+        var inputDir = eventData.position - rectTransform.anchoredPosition;
+        //Debug.Log(inputDir);
+        // 추가
+        var clampedDir = inputDir.magnitude < leverRange ? inputDir : inputDir.normalized * leverRange;
+
+        // lever.anchoredPosition = inputDir;
+        lever.anchoredPosition = clampedDir;    // 변경
+
+        ControlJoystickLever(eventData);    // 추가
+        isInput = false;    // 추가
+    }
+
+    public void ControlJoystickLever(PointerEventData eventData)
+    {
+        var inputDir = eventData.position - rectTransform.anchoredPosition;
+        var clampedDir = inputDir.magnitude < leverRange ? inputDir
+            : inputDir.normalized * leverRange;
+        lever.anchoredPosition = clampedDir;
+        inputVector = clampedDir / leverRange;
+
+        Debug.Log(inputVector);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        lever.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+    }
+
+    public Vector2 InputVec()
+    {
+        return new Vector2(inputVector.x + 1, inputVector.y + 1) * 0.5f;
     }
 }

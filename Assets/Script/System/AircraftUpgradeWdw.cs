@@ -16,6 +16,8 @@ public class AircraftUpgradeWdw : MonoBehaviour
     public List<TextMeshProUGUI> upgradeCostTmps = new List<TextMeshProUGUI>();
     public List<Image> aircraftStockSpecImage = new List<Image>();
     public List<Image> aircraftUpgradeSpecImage = new List<Image>();
+    public List<Image> costTypeImage = new List<Image>();
+    public Sprite combatData, gold;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,11 +52,19 @@ public class AircraftUpgradeWdw : MonoBehaviour
         aircraftStockSpecImage[2].fillAmount = AircraftManager.instance.useStaticData.max_hp * 0.0008f;//장갑 (체력)
         aircraftStockSpecImage[3].fillAmount = AircraftManager.instance.useStaticData.MAX_POWER * 0.02f;//재장전 (재장전계수)
 
-
-        aircraftUpgradeSpecImage[0].fillAmount = aircraftStockSpecImage[0].fillAmount * AircraftManager.instance.useStaticData.AircraftUpgradeData.engineValue;
-        aircraftUpgradeSpecImage[1].fillAmount = aircraftStockSpecImage[1].fillAmount * AircraftManager.instance.useStaticData.AircraftUpgradeData.lightnessValue;
-        aircraftUpgradeSpecImage[2].fillAmount = aircraftStockSpecImage[2].fillAmount * AircraftManager.instance.useStaticData.AircraftUpgradeData.armorValue;
-        aircraftUpgradeSpecImage[3].fillAmount = aircraftStockSpecImage[3].fillAmount * AircraftManager.instance.useStaticData.AircraftUpgradeData.reloadValue;
-
+        for(int i = 0; i < 4; i++)
+        {
+            aircraftUpgradeSpecImage[i].fillAmount = aircraftStockSpecImage[i].fillAmount + (aircraftStockSpecImage[i].fillAmount * (AircraftManager.instance.useStaticData.AircraftUpgradeData.upgradeValue[i]-1) * 0.1f);
+            if(AircraftManager.instance.useStaticData.AircraftUpgradeData.upgradeValue[i] >= 4)
+            {
+                costTypeImage[i].sprite = gold;
+                costTypeImage[i].color = Color.yellow;
+            }
+            else
+            {
+                costTypeImage[i].sprite = combatData;
+                costTypeImage[i].color = Color.green;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ public class Rader : MonoBehaviour
 {
     const float RADER_FOV = 70;
     public GameObject targetBox;
+    RectTransform targetRectTransform;
     public GameObject enemyManager;
     public TextMeshProUGUI distanceTmp;
     public TextMeshProUGUI velocityTmp;
@@ -30,6 +31,7 @@ public class Rader : MonoBehaviour
     void Start()
     {
         InvokeRepeating("RaderSearch", 1, 0.2f);
+        targetRectTransform = targetBox.GetComponent<RectTransform>();
     }
 
 
@@ -43,8 +45,8 @@ public class Rader : MonoBehaviour
         {
             targetBox.SetActive(true);
             Vector3 viewPos = Camera.main.WorldToViewportPoint(target.transform.position);
-            viewPos = new Vector3(viewPos.x-0.5f, viewPos.y-0.5f, 0);
-            targetBox.transform.localPosition = Camera.main.ViewportToScreenPoint(viewPos);
+            viewPos = new Vector3(viewPos.x, viewPos.y, 0);
+            targetRectTransform.position = Camera.main.ViewportToScreenPoint(viewPos);
 
             targetDistance = (target.transform.position - this.transform.position).magnitude;
 
@@ -89,7 +91,7 @@ public class Rader : MonoBehaviour
 
             if (targetPriority > tempPriority)
             {
-                target = temp;
+                target = temp;                
                 targetPriority = tempPriority;
             }        
         }

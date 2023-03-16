@@ -97,6 +97,17 @@ public class UpgradeManager : MonoBehaviour
         UpgradeList.Add(new Upgrade("Upgrade_AIM-7E", 5000, Find("Upgrade_AIM-9C")));
         UpgradeList.Add(new Upgrade("Upgrade_AIM-7M", 15000, Find("Upgrade_AIM-7E")));
         UpgradeList.Add(new Upgrade("Upgrade_AIM-54A", 20000, Find("Upgrade_AIM-7M")));
+        //------------------------
+        UpgradeList.Add(new Upgrade("Upgrade_R13M1", 3000, Find("Upgrade_AIM-9J")));
+        UpgradeList.Add(new Upgrade("Upgrade_R23T", 10000, Find("Upgrade_R13M1")));
+        UpgradeList.Add(new Upgrade("Upgrade_R23R", 5000, Find("Upgrade_R23T")));
+        UpgradeList.Add(new Upgrade("Upgrade_R24T", 10000, Find("Upgrade_R23T")));
+        UpgradeList.Add(new Upgrade("Upgrade_R24R", 5000, Find("Upgrade_R24T")));
+        UpgradeList.Add(new Upgrade("Upgrade_R27T", 20000, Find("Upgrade_R24T")));
+        UpgradeList.Add(new Upgrade("Upgrade_R27R", 10000, Find("Upgrade_R27T")));
+        UpgradeList.Add(new Upgrade("Upgrade_R60", 5000, Find("Upgrade_R13M1")));
+        UpgradeList.Add(new Upgrade("Upgrade_R73", 40000, Find("Upgrade_R60")));
+
 
         UpgradeDataLoad();
 
@@ -124,6 +135,8 @@ public class UpgradeManager : MonoBehaviour
                 UpgradeList[i].DataLoad(true);
             }
         }
+
+        UpgradeSaveData[0] = true;//aim9j 기본연구완료
     }
     void UpgradeDataSave(string name, bool value)
     {

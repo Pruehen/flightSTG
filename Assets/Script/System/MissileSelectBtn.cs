@@ -37,6 +37,9 @@ public class MissileSelectBtn : MonoBehaviour
 
     public void MissileSelect()
     {
+        if (!isActive)
+            return;
+
         AircraftManager.instance.MissileSet(haveMissileData);
         missileSelectSystem.MissileSpecGraphSet(haveMissileData);
         HangerWdw.instance.SelectMissileBtnSet();

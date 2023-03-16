@@ -13,8 +13,6 @@ public class HangerWdw : MonoBehaviour
     public Image selectedMissileImage1, selectedMissileImage2;
     public TextMeshProUGUI selectedMissileNameText1, selectedMissileNameText2;
 
-    public Sprite aim9g, aim9j, aim9m, aim7, aim54;
-
     public static HangerWdw instance;
     private void Awake()
     {
@@ -84,23 +82,27 @@ public class HangerWdw : MonoBehaviour
 
         if(missileName == "AIM-9J")
         {
-            controlImage.sprite = aim9j;
+            controlImage.sprite = MissileIconManager.instance.aim9j;
         }
         else if (missileName == "AIM-9G" || missileName == "AIM-9H" || missileName == "AIM-9C")
         {
-            controlImage.sprite = aim9g;
+            controlImage.sprite = MissileIconManager.instance.aim9g;
         }
         else if (missileName == "AIM-9M")
         {
-            controlImage.sprite = aim9m;
+            controlImage.sprite = MissileIconManager.instance.aim9m;
         }
         else if (missileName == "AIM-7E" || missileName == "AIM-7M")
         {
-            controlImage.sprite = aim7;
+            controlImage.sprite = MissileIconManager.instance.aim7;
         }
         else if (missileName == "AIM-54A")
         {
-            controlImage.sprite = aim54;
+            controlImage.sprite = MissileIconManager.instance.aim54;
+        }
+        else
+        {
+            controlImage.sprite = MissileIconManager.instance.aim9j;
         }
     }
 

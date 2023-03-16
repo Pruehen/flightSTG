@@ -59,7 +59,11 @@ public class FighterSurfacesControl : MonoBehaviour
         TransAng(leftElevator, heading[1], (-MRz + MRx) * maxAngle, bank[1]);
 
         TransAng(rightRudder, heading[4], MRy * rudderMaxAngle, bank[4]);
-        TransAng(leftRudder, heading[5], MRy * rudderMaxAngle, bank[5]);
+        if(leftRudder != null)
+        {
+            TransAng(leftRudder, heading[5], MRy * rudderMaxAngle, bank[5]);
+        }
+
 
 	    if (turnFlap)
 	    {

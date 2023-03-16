@@ -23,12 +23,15 @@ public class GameManager : MonoBehaviour
 
         BgmSet(1);
         SoundSet(1);
+
     }
     //설정창에서 다루는 변수
     public float bgmVolume { get; private set; }// 0.001 ~ 1
     public float soundVolume { get; private set; }// 0.001 ~ 1
     public float controlSencitivity { get; private set; } = 3;// 1 ~ 5
     public bool autoAim { get; private set; } = true;
+
+    public bool joyStickUse { get; private set; } = false;
 
     public void BgmSet(float value)
     {
@@ -38,7 +41,7 @@ public class GameManager : MonoBehaviour
     {
         soundVolume = value;
     }
-    public void ControlSencitivitySet(float value)//value = 5 ~ 20
+    public void ControlSencitivitySet(float value)//value = 2~10
     {
         controlSencitivity = value;
     }
@@ -46,10 +49,19 @@ public class GameManager : MonoBehaviour
     {
         autoAim = value;
     }
+    public void JoyStickUseSet(bool value)
+    {
+        joyStickUse = value;
+    }
     //----------------------------------
     //격납고에서 다루는 변수
     public int combatData { get; private set; }//전투데이터
     public int gold { get; private set; }//골드
+
+    public void DebugGetData()
+    {
+        CombatDataUse(-20000);
+    }
 
     public bool CombatDataUse(int value)
     {
@@ -58,7 +70,10 @@ public class GameManager : MonoBehaviour
 
         combatData -= value;
         Debug.Log(combatData);
-        HangerWdw.instance.CombatDataTextSet();
+        if (HangerWdw.instance != null)
+        {
+            HangerWdw.instance.CombatDataTextSet();
+        }
         PlayerPrefs.SetInt("combatData", combatData);//전투데이터 저장
         return true;
     }

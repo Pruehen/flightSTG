@@ -42,6 +42,37 @@ public class PlayerInfo : MonoBehaviour
         rigidbody = this.GetComponent<Rigidbody>();
         rigidbody.velocity = new Vector3(0, 0, 200);
         hp = max_hp;
+
+        Invoke("MissileImageSet", 0.1f);
+    }
+
+    void MissileImageSet()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            string misName = PlayerWeaponControl.instance.haveMissileDatas[i].missileName;
+            if (misName == "AIM-9J")
+            {
+                missileImage[i].sprite = MissileIconManager.instance.aim9j;
+            }
+            else if (misName == "AIM-9G" || misName == "AIM-9H" || misName == "AIM-9C")
+            {
+                missileImage[i].sprite = MissileIconManager.instance.aim9g;
+            }
+            else if (misName == "AIM-9M")
+            {
+                missileImage[i].sprite = MissileIconManager.instance.aim9m;
+            }
+            else if (misName == "AIM-7M" || misName == "AIM-7E")
+            {
+                missileImage[i].sprite = MissileIconManager.instance.aim7;
+            }
+            else if (misName == "AIM-54A")
+            {
+                missileImage[i].sprite = MissileIconManager.instance.aim54;
+            }
+            missileImage[i + 2].sprite = missileImage[i].sprite;
+        }
     }
 
     void AircraftInit()
@@ -49,15 +80,15 @@ public class PlayerInfo : MonoBehaviour
         Aircraft refData = AircraftManager.instance.useStaticData;
 
         dc = refData.dc;
-        wL = refData.wL * (1/refData.AircraftUpgradeData.lightnessValue);
-        MAX_POWER = refData.MAX_POWER * refData.AircraftUpgradeData.engineValue;
-        MAX_PITCHMOMENT = refData.MAX_PITCHMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
-        MAX_ROLLMOMENT = refData.MAX_ROLLMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
-        MAX_YAWMOMENT = refData.MAX_YAWMOMENT * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
-        MAX_LIFTPOWER = refData.MAX_LIFTPOWER * (1 + refData.AircraftUpgradeData.lightnessValue * 0.5f);
-        max_hp = refData.max_hp * (refData.AircraftUpgradeData.armorValue);
+        wL = refData.wL * (1/refData.AircraftUpgradeData.LightnessValue());
+        MAX_POWER = refData.MAX_POWER * refData.AircraftUpgradeData.EngineValue();
+        MAX_PITCHMOMENT = refData.MAX_PITCHMOMENT * (1 + refData.AircraftUpgradeData.LightnessValue() * 0.5f);
+        MAX_ROLLMOMENT = refData.MAX_ROLLMOMENT * (1 + refData.AircraftUpgradeData.LightnessValue() * 0.5f);
+        MAX_YAWMOMENT = refData.MAX_YAWMOMENT * (1 + refData.AircraftUpgradeData.LightnessValue() * 0.5f);
+        MAX_LIFTPOWER = refData.MAX_LIFTPOWER * (1 + refData.AircraftUpgradeData.LightnessValue() * 0.5f);
+        max_hp = refData.max_hp * (refData.AircraftUpgradeData.ArmorValue());
         STALL_AOA = refData.STALL_AOA;
-        reloadTime = refData.reloadTime;
+        reloadTime = refData.reloadTime / (refData.AircraftUpgradeData.ReloadValue() * refData.AircraftUpgradeData.ReloadValue());
     }
 
     bool isStall = false;
@@ -113,10 +144,12 @@ public class PlayerInfo : MonoBehaviour
         MapOutCheck();
 
         speed = rigidbody.velocity.magnitude;
+
     }
 
     [SerializeField] TextMeshProUGUI speedText, heightText, gunText, mslText, flrText, dmgText, aoaText, gforceText, maxGText;
     public GameObject velocityVector, aircraftCenter;
+    public Image[] missileImage;
 
     public void GunTextSet(int ammu)
     {
@@ -124,7 +157,7 @@ public class PlayerInfo : MonoBehaviour
     }
     public void MslTextSet(string missile)
     {
-        mslText.text = "MSL  " + missile;
+        mslText.text = missile;
     }
     public void FlrTextSet(int ammu)
     {
@@ -133,6 +166,27 @@ public class PlayerInfo : MonoBehaviour
     public void DmgTextSet(int hp)
     {
         dmgText.text = "DMG  " + ((int)(max_hp - hp) * 100 / (int)max_hp).ToString() + "%";
+    }
+    public void MissileImageSet(int missileIndex)
+    {
+        missileImage[missileIndex].fillAmount = -((PlayerWeaponControl.instance.missileCooldown[missileIndex] - reloadTime) / reloadTime);
+    }
+    public void MissileImageColorSet(int missileIndex)
+    {
+        if(missileIndex == 0)
+        {
+            missileImage[missileIndex].color = new Color(0, 255, 0);
+            missileImage[missileIndex+2].color = new Color(0, 255, 0);
+            missileImage[missileIndex+1].color = new Color(0, 255, 0, 0.2f);
+            missileImage[missileIndex+3].color = new Color(0, 255, 0, 0.2f);
+        }
+        else if(missileIndex == 1)
+        {
+            missileImage[missileIndex].color = new Color(0, 255, 0);
+            missileImage[missileIndex + 2].color = new Color(0, 255, 0);
+            missileImage[missileIndex - 1].color = new Color(0, 255, 0, 0.2f);
+            missileImage[missileIndex + 1].color = new Color(0, 255, 0, 0.2f);
+        }
     }
 
     private void Update()

@@ -9,14 +9,27 @@ public class PlayerControll : MonoBehaviour
     [SerializeField] Scrollbar throttleBar, pitchBar, rollBar, yawBar;
     ControlSystem controlSystem = ControlSystem.gyro;
 
-    public JoyStick joystick;
+    public Joystick joystick;
 
     Vector3 startGyroVec;
+
+    public static PlayerControll instance;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        controlSystem = ControlSystem.gyro;
+        if(GameManager.instance.joyStickUse)
+        {
+            controlSystem = ControlSystem.joyPad;
+        }
+        else
+        {
+            controlSystem = ControlSystem.gyro;
+        }
 
         startGyroVec = new Vector3(PlayerPrefs.GetFloat("GyroVecX"), PlayerPrefs.GetFloat("GyroVecY"), PlayerPrefs.GetFloat("GyroVecZ"));
         //playerCountermeasure = 
@@ -24,7 +37,12 @@ public class PlayerControll : MonoBehaviour
     const int SCREEN_X = 1920;
     const int SCREEN_Y = 1080;
 
-    enum ControlSystem
+    public void ControlSystemSet(ControlSystem value)
+    {
+        controlSystem = value;
+    }
+
+    public enum ControlSystem
     {
         joyPad,
         mouse,
@@ -74,7 +92,7 @@ public class PlayerControll : MonoBehaviour
                 }
                 else
                 {
-                    pitchBar.value = Mathf.Lerp(pitchBar.value, joystick.JoyPosition().y, 0.1f);
+                    pitchBar.value = Mathf.Lerp(pitchBar.value, ((joystick.Direction.y + 1) * 0.5f), 0.1f);
                 }
 
                 #endregion
@@ -90,7 +108,7 @@ public class PlayerControll : MonoBehaviour
                 }
                 else
                 {
-                    rollBar.value = Mathf.Lerp(rollBar.value, joystick.JoyPosition().x, 0.1f);
+                    rollBar.value = Mathf.Lerp(rollBar.value, ((joystick.Direction.x + 1) * 0.5f), 0.1f);
                 }
 
                 #endregion

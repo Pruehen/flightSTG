@@ -12,11 +12,19 @@ public class EnemyManager : MonoBehaviour
 
     public GameObject enemy01;
     public GameObject enemy01_Debri;
+
+    bool infinityMod = false;
     // Start is called before the first frame update
 
     int createEnemyCount;
+    int destroyEnemy = 0;
     void Start()
     {
+        if(GameManager.instance.difficulty == -1)
+        {
+            infinityMod = true;
+        }
+
         createEnemyCount = (int)GameManager.instance.difficulty + 2;
         for (int i = 0; i < Mathf.Clamp(10, 0, createEnemyCount); i++)
         {
@@ -41,16 +49,21 @@ public class EnemyManager : MonoBehaviour
 
     public void EnemyDestroy()
     {
-        Debug.Log(this.transform.childCount);
-
+        //Debug.Log(this.transform.childCount);
+        destroyEnemy++;
         if (createEnemyCount > 0)
         {
             EnemyCreate();
             createEnemyCount--;
         }
+        if(infinityMod)
+        {
+            GameManager.instance.DifficultySet(destroyEnemy + 1);
+            EnemyCreate();
+            EnemyCreate();
+        }
         else if(this.transform.childCount == 1)
         {
-            
             MissionSceneManager.instance.GameEnd(true);
         }
     }

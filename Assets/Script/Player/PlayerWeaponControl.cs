@@ -12,7 +12,7 @@ public class PlayerWeaponControl : MonoBehaviour
 
     const int INTED_MISSILE_COUNT = 4;
     public Transform[] missilePoint = new Transform[INTED_MISSILE_COUNT];
-    float[] missileCooldown = new float[INTED_MISSILE_COUNT];
+    public float[] missileCooldown = new float[INTED_MISSILE_COUNT];
     bool[] isCanFireMissile = new bool[INTED_MISSILE_COUNT];
 
     float gunShotDelay = 0.02f;
@@ -25,7 +25,7 @@ public class PlayerWeaponControl : MonoBehaviour
     Rigidbody rigidbody;
 
     public MissileData[] haveMissileDatas = new MissileData[INTED_MISSILE_COUNT];
-    MissileData[] intedMissileDatas = new MissileData[INTED_MISSILE_COUNT];
+    public MissileData[] intedMissileDatas = new MissileData[INTED_MISSILE_COUNT];
     MissileData useMissileData;
 
     public static PlayerWeaponControl instance;
@@ -58,9 +58,12 @@ public class PlayerWeaponControl : MonoBehaviour
 
 
         useMissileData = haveMissileDatas[0];
+        PlayerInfo.playerInfo.MissileImageColorSet(0);
+
         PlayerInfo.playerInfo.MslTextSet(useMissileData.missileName);
 
         missileSeeker.gameObject.SetActive(false);
+        missileSeekerRtrf = missileSeeker.GetComponent<RectTransform>();
     }
 
     public bool isFireing = false;
@@ -73,8 +76,9 @@ public class PlayerWeaponControl : MonoBehaviour
             if(!isCanFireMissile[i])
             {
                 missileCooldown[i] -= Time.deltaTime;
+                PlayerInfo.playerInfo.MissileImageSet(i);
 
-                if(missileCooldown[i] <= 0)
+                if (missileCooldown[i] <= 0)
                 {
                     isCanFireMissile[i] = true;
                     missilePoint[i].gameObject.SetActive(true);
@@ -123,8 +127,8 @@ public class PlayerWeaponControl : MonoBehaviour
                 viewPos = Camera.main.WorldToViewportPoint(this.transform.position + this.transform.forward * 1000);
             }
 
-            viewPos = new Vector3(viewPos.x - 0.5f, viewPos.y - 0.5f, 0);
-            missileSeeker.transform.localPosition = Camera.main.ViewportToScreenPoint(viewPos);
+            viewPos = new Vector3(viewPos.x, viewPos.y, 0);
+            missileSeekerRtrf.position = Camera.main.ViewportToScreenPoint(viewPos);
 
             if (seeLv > 0 && seekerLock == false)
             {
@@ -142,6 +146,7 @@ public class PlayerWeaponControl : MonoBehaviour
     }
 
     public Image missileSeeker;
+    RectTransform missileSeekerRtrf;
     public void SeekerToggle(bool value)
     {
         seekerOn = value;
@@ -175,6 +180,8 @@ public class PlayerWeaponControl : MonoBehaviour
         useMissileData = haveMissileDatas[useMissileNum];
 
         PlayerInfo.playerInfo.MslTextSet(useMissileData.missileName);
+
+        PlayerInfo.playerInfo.MissileImageColorSet(useMissileNum);
     }
 
     public void FireMissile()

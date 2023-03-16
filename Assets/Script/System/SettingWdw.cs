@@ -12,6 +12,8 @@ public class SettingWdw : MonoBehaviour
     public Slider soundSlider;//효과음량
     public Slider controlSencSlider;//조종감도
     public Toggle autoAimToggle;//자동조준
+    public Toggle joyStickUse;//조이스틱사용여부
+    public GameObject joyStick;
 
     public void BgmSet()
     {
@@ -31,6 +33,23 @@ public class SettingWdw : MonoBehaviour
     {
         GameManager.instance.AutoAimSet(autoAimToggle.isOn);
     }
+    public void JoyStickUseSet()
+    {
+        GameManager.instance.JoyStickUseSet(joyStickUse.isOn);
+        if (joyStick != null)
+        {
+            joyStick.SetActive(joyStickUse.isOn);
+            if (joyStickUse.isOn)
+            {
+                PlayerControll.instance.ControlSystemSet(PlayerControll.ControlSystem.joyPad);
+            }
+            else
+            {
+                PlayerControll.instance.ControlSystemSet(PlayerControll.ControlSystem.gyro);
+            }
+
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +60,7 @@ public class SettingWdw : MonoBehaviour
         soundSlider.value = GameManager.instance.soundVolume;
         controlSencSlider.value = GameManager.instance.controlSencitivity;
         autoAimToggle.isOn = GameManager.instance.autoAim;
+        joyStickUse.isOn = GameManager.instance.joyStickUse;
     }
 
     // Update is called once per frame

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class MissionSceneManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class MissionSceneManager : MonoBehaviour
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI combatDataText2;//이번판에 추가로 획득하는 전투데이터의 양
 
+    public GoogleAds googlaAds;//보상 리워드에 사용되는 구글광고 관리클래스
 
     private void Start()
     {
@@ -78,31 +80,45 @@ public class MissionSceneManager : MonoBehaviour
     }
 
     float stageCombatData = 0;
-    
+
     public void GameEnd(bool isClear)
     {
         PauseSet(true);
         gameEndWdw.SetActive(true);
 
-        stageCombatData = score + (stagePlayTime * 5);
+
+        stageCombatData = (score + (stagePlayTime * 5) * 0.9f);
 
         if (isClear)
         {
+            stageCombatData *= 1.5f;
             clearTxt.text = "CLEAR";
             clearTxt.color = Color.white;
-            GameManager.instance.CombatDataUse(-(int)(stageCombatData * 1.5f));
-            combatDataText2.text = ((int)(stageCombatData * 1.5f)).ToString();
             GameManager.instance.StageClear();
         }
         else
         {
             clearTxt.text = "FAILED";
             clearTxt.color = Color.gray;
-            GameManager.instance.CombatDataUse(-(int)stageCombatData);
-            combatDataText2.text = ((int)stageCombatData).ToString();
         }
+        GameManager.instance.CombatDataUse(-(int)stageCombatData);
+        combatDataText2.text = ((int)stageCombatData).ToString();
 
         combatDataText.text = GameManager.instance.combatData.ToString();
         goldText.text = GameManager.instance.gold.ToString();
+    }
+
+    public void AdsView()
+    {
+        AudioListener.volume = 0;
+        googlaAds.ShowAds();
+    }
+
+    public void PostADs()
+    {
+        AudioListener.volume = 1;
+        GameManager.instance.CombatDataUse(-(int)stageCombatData);
+        GameManager.instance.GoldUse(-1);
+        ToMainScene();
     }
 }
