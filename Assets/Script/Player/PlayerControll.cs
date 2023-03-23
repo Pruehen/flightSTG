@@ -224,6 +224,7 @@ public class PlayerControll : MonoBehaviour
     {
         Vector3 contorollVec = Input.acceleration.normalized - startGyroVec;
         contorollVec *= GameManager.instance.controlSencitivity;//gyroSensitivity
+
         contorollVec = new Vector3(Mathf.Clamp(contorollVec.x, -1, 1) + 1, Mathf.Clamp(contorollVec.y, -1, 1) + 1, Mathf.Clamp(contorollVec.z, -1, 1) + 1) * 0.5f;
 
         return contorollVec;

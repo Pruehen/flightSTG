@@ -16,8 +16,10 @@ public class Aircraft
     public float STALL_AOA = 25;//스톨저항성
     public float reloadTime = 10;//재장전시간
     public AircraftUpgradeData AircraftUpgradeData;//해당기체의 업그레이드 데이터
+    public bool isActive = false;//해당기체의 사용가능여부
+    public int cost = 0;//기체의 가격
 
-    public Aircraft(string name, float dc, float wL, float mAX_POWER, float mAX_PITCHMOMENT, float mAX_ROLLMOMENT, float mAX_YAWMOMENT, float mAX_LIFTPOWER, float max_hp, float sTALL_AOA, float reloadTime, int baseUpgradeCost)
+    public Aircraft(string name, float dc, float wL, float mAX_POWER, float mAX_PITCHMOMENT, float mAX_ROLLMOMENT, float mAX_YAWMOMENT, float mAX_LIFTPOWER, float max_hp, float sTALL_AOA, float reloadTime, int baseUpgradeCost, bool active, int cost)
     {
         this.name = name;
         this.dc = dc;
@@ -31,6 +33,8 @@ public class Aircraft
         STALL_AOA = sTALL_AOA;
         this.reloadTime = reloadTime;
         AircraftUpgradeData = new AircraftUpgradeData(name, baseUpgradeCost);
+        this.isActive = active;
+        this.cost = cost;
     }
 }
 

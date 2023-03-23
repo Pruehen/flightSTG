@@ -12,6 +12,8 @@ public class HangerWdw : MonoBehaviour
     public GameObject missileSelectWdw, missileSpecWdw, techTreeWdw, upgradeWdw;
     public Image selectedMissileImage1, selectedMissileImage2;
     public TextMeshProUGUI selectedMissileNameText1, selectedMissileNameText2;
+    public GameObject buyBtn;
+    public Transform aircraftSelectTrf;
 
     public static HangerWdw instance;
     private void Awake()
@@ -25,6 +27,8 @@ public class HangerWdw : MonoBehaviour
         CombatDataTextSet();
         GoldTextSet();
         SelectMissileBtnSet();
+
+        AircraftManager.instance.AircraftUnlockBtnDelete();
     }
 
     public void CombatDataTextSet()
@@ -59,6 +63,36 @@ public class HangerWdw : MonoBehaviour
     public void UpgradeWdwToggle(bool value)
     {
         upgradeWdw.SetActive(value);
+        if (AircraftUpgradeWdw.instance != null)
+        {
+            AircraftUpgradeWdw.instance.BtnSet();
+        }
+    }
+
+    public void AircraftUnlockBtnDelete(string name)
+    {
+        if (aircraftSelectTrf.Find(name) != null)
+        {
+            aircraftSelectTrf.Find(name).gameObject.SetActive(false);
+        }
+    }
+
+    [SerializeField]GameObject CurrentedAircraftUnlockBtn;
+    public void AircraftUnlockBtnObjectCurrent(GameObject gameObject)
+    {
+        CurrentedAircraftUnlockBtn = gameObject;
+    }
+
+    public void BuyBtnToggle(bool value)
+    {
+        buyBtn.SetActive(value);
+    }
+    public void BuyBtnClick()
+    {
+        if(AircraftManager.instance.SelectedDataBuyTry())
+        {
+            buyBtn.SetActive(false);
+        }
     }
 
     public void SelectMissileBtnSet()

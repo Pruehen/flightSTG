@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public void DebugGetData()
     {
         CombatDataUse(-20000);
+        GoldUse(-20);
     }
 
     public bool CombatDataUse(int value)
@@ -79,11 +80,15 @@ public class GameManager : MonoBehaviour
     }
     public bool GoldUse(int value)
     {
-        if (gold - value <= 0)
+        if (gold - value < 0)
             return false;
 
         gold -= value;
         Debug.Log(gold);
+        if (HangerWdw.instance != null)
+        {
+            HangerWdw.instance.GoldTextSet();
+        }
         PlayerPrefs.SetInt("gold", gold);//°ñµå ÀúÀå
         return true;
     }

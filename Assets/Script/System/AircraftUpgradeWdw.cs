@@ -34,10 +34,10 @@ public class AircraftUpgradeWdw : MonoBehaviour
     {
         List<int> costTemp = new List<int>();
 
-        costTemp.Add(AircraftManager.instance.useStaticData.AircraftUpgradeData.CostReturn(UpgradeType.engine));
-        costTemp.Add(AircraftManager.instance.useStaticData.AircraftUpgradeData.CostReturn(UpgradeType.lightness));
-        costTemp.Add(AircraftManager.instance.useStaticData.AircraftUpgradeData.CostReturn(UpgradeType.armor));
-        costTemp.Add(AircraftManager.instance.useStaticData.AircraftUpgradeData.CostReturn(UpgradeType.reload));
+        costTemp.Add(AircraftManager.instance.selectedData.AircraftUpgradeData.CostReturn(UpgradeType.engine));
+        costTemp.Add(AircraftManager.instance.selectedData.AircraftUpgradeData.CostReturn(UpgradeType.lightness));
+        costTemp.Add(AircraftManager.instance.selectedData.AircraftUpgradeData.CostReturn(UpgradeType.armor));
+        costTemp.Add(AircraftManager.instance.selectedData.AircraftUpgradeData.CostReturn(UpgradeType.reload));
 
         for (int i = 0; i < costTemp.Count; i++)
         {
@@ -47,15 +47,15 @@ public class AircraftUpgradeWdw : MonoBehaviour
                 upgradeCostTmps[i].text = costTemp[i].ToString();
         }
 
-        aircraftStockSpecImage[0].fillAmount = AircraftManager.instance.useStaticData.MAX_POWER * 0.02f;//엔진 (최대출력)
-        aircraftStockSpecImage[1].fillAmount = 100 / AircraftManager.instance.useStaticData.wL;//무게 (익면하중)
-        aircraftStockSpecImage[2].fillAmount = AircraftManager.instance.useStaticData.max_hp * 0.0008f;//장갑 (체력)
-        aircraftStockSpecImage[3].fillAmount = AircraftManager.instance.useStaticData.MAX_POWER * 0.02f;//재장전 (재장전계수)
+        aircraftStockSpecImage[0].fillAmount = AircraftManager.instance.selectedData.MAX_POWER * 0.02f;//엔진 (최대출력)
+        aircraftStockSpecImage[1].fillAmount = 100 / AircraftManager.instance.selectedData.wL;//무게 (익면하중)
+        aircraftStockSpecImage[2].fillAmount = AircraftManager.instance.selectedData.max_hp * 0.0008f;//장갑 (체력)
+        aircraftStockSpecImage[3].fillAmount = AircraftManager.instance.selectedData.MAX_POWER * 0.02f;//재장전 (재장전계수)
 
         for(int i = 0; i < 4; i++)
         {
-            aircraftUpgradeSpecImage[i].fillAmount = aircraftStockSpecImage[i].fillAmount + (aircraftStockSpecImage[i].fillAmount * (AircraftManager.instance.useStaticData.AircraftUpgradeData.upgradeValue[i]-1) * 0.1f);
-            if(AircraftManager.instance.useStaticData.AircraftUpgradeData.upgradeValue[i] >= 4)
+            aircraftUpgradeSpecImage[i].fillAmount = aircraftStockSpecImage[i].fillAmount + (aircraftStockSpecImage[i].fillAmount * (AircraftManager.instance.selectedData.AircraftUpgradeData.upgradeValue[i]-1) * 0.1f);
+            if(AircraftManager.instance.selectedData.AircraftUpgradeData.upgradeValue[i] >= 4)
             {
                 costTypeImage[i].sprite = gold;
                 costTypeImage[i].color = Color.yellow;

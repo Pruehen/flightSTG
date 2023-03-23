@@ -55,8 +55,8 @@ public class FighterSurfacesControl : MonoBehaviour
         }
         //rightElevator.transform.localRotation = Quaternion.Euler(new Vector3((MRz + MRx) * maxAngle, rightElevatorSetAngle, 0));
         //leftElevator.transform.localRotation = Quaternion.Euler(new Vector3((-MRz + MRx) * maxAngle, leftElevatorSetAngle, 0));
-        TransAng(rightElevator, heading[0], (MRz + MRx) * maxAngle, bank[0]);
-        TransAng(leftElevator, heading[1], (-MRz + MRx) * maxAngle, bank[1]);
+        TransAng(rightElevator, heading[0], (MRz - MRx) * maxAngle, bank[0]);
+        TransAng(leftElevator, heading[1], (-MRz - MRx) * maxAngle, bank[1]);
 
         TransAng(rightRudder, heading[4], MRy * rudderMaxAngle, bank[4]);
         if(leftRudder != null)

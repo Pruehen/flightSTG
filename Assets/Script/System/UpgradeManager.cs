@@ -80,6 +80,10 @@ public class UpgradeManager : MonoBehaviour
 
     public void TryUpgrade_Aircraft(int value)
     {
+        if(AircraftManager.instance.selectedData.isActive == false)
+        {
+            return;
+        }
         UpgradeType upgradeType = (UpgradeType)value;
 
         AircraftManager.instance.useStaticData.AircraftUpgradeData.TryUpgrade(upgradeType);

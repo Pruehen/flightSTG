@@ -19,7 +19,8 @@ public class AircraftManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public Aircraft useStaticData;
+    public Aircraft useStaticData;//사용하는 데이터
+    public Aircraft selectedData;//선택한 데이터(사용하는 데이터와 같을 수도 있고 다를 수도 있음)
     //string useAircraftName = "C-16C";
     public MissileData[] useMissileDatas;//전투기에 장착될 미사일
     public MissileData UseMissileData(int index)
@@ -45,8 +46,14 @@ public class AircraftManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        aircraftDatas.Add(new Aircraft("C-15C", 0.03f, 330, 16, 150, 300, 10, 30, 500, 20, 10, 5));//기체들 데이터 로딩 + 업그레이드데이터 로딩
-        aircraftDatas.Add(new Aircraft("C-16A", 0.03f, 230, 12, 120, 300, 10, 25, 500, 15, 10, 5));
+        aircraftDatas.Add(new Aircraft("C-15C", 0.03f, 330, 16, 150, 300, 10, 30, 500, 20, 10, 5, true, 0));//기체들 데이터 로딩 + 업그레이드데이터 로딩
+        aircraftDatas.Add(new Aircraft("C-16A", 0.03f, 230, 12, 120, 300, 10, 25, 500, 15, 10, 5, true, 0));
+
+        //PlayerPrefs.SetInt("MG-21S.Active", 0);
+        //PlayerPrefs.SetInt("MG-29S.Active", 0);
+
+        aircraftDatas.Add(new Aircraft("MG-21S", 0.029f, 370, 18, 80, 300, 10, 40, 400, 30, 10, 2, Convert.ToBoolean(PlayerPrefs.GetInt("MG-21S.Active", 0)), 20000));
+        aircraftDatas.Add(new Aircraft("MG-29S", 0.035f, 280, 18, 150, 300, 10, 30, 500, 20, 10, 6, Convert.ToBoolean(PlayerPrefs.GetInt("MG-29S.Active", 0)), 30000));
 
         if (useMissileDatas == null)
         {
@@ -57,6 +64,17 @@ public class AircraftManager : MonoBehaviour
         //PlayerPrefs.SetString("UseAircraftName", useStaticData.name);
 
         //UpgradeResetDebug();//        
+    }
+
+    public void AircraftUnlockBtnDelete()
+    {
+        foreach(Aircraft data in aircraftDatas)
+        {
+            if (data.isActive)
+            {
+                HangerWdw.instance.AircraftUnlockBtnDelete(data.name);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -75,12 +93,49 @@ public class AircraftManager : MonoBehaviour
     }
     public void UseStaticDataSet(string name)//버튼 누름
     {
-        useStaticData = FindAircraft(name);//할당
-        PlayerPrefs.SetString("UseAircraftName", name);//저장
+        Aircraft data = FindAircraft(name);
+
+        if (data.isActive)
+        {
+            useStaticData = data;//할당
+            PlayerPrefs.SetString("UseAircraftName", name);//저장
+        }
 
         MainSceneManager.Instance.HangerAircraftSet(name);
+        selectedData = data;
     }
+    public bool SelectedDataBuyTry()//구매버튼 누를시 호출
+    {
+        int cost = selectedData.cost;
+        if(cost >= 20000)//전투데이터로 구매
+        {
+            if(GameManager.instance.combatData >= cost)
+            {
+                GameManager.instance.CombatDataUse(cost);
+                SelectedDataUnlock();
+                AircraftUnlockBtnDelete();
+                return true;
+            }
+        }
+        else if (cost < 20000)//골드로 구매
+        {
+            if (GameManager.instance.gold >= cost)
+            {
+                GameManager.instance.GoldUse(cost);
+                SelectedDataUnlock();
+                AircraftUnlockBtnDelete();
+                return true;
+            }
+        }
 
+        return false;
+    }
+    void SelectedDataUnlock()
+    {
+        selectedData.isActive = true;
+        PlayerPrefs.SetInt(selectedData.name + ".Active", 1);
+        useStaticData = selectedData;
+    }
 
     public void UpgradeResetDebug()
     {
@@ -131,14 +186,14 @@ public class AircraftUpgradeData
 
     public bool TryUpgrade(UpgradeType type)
     {
-        if (upgradeValue[(int)type] >= 5)//업그레이드 최대치인경우
+        if (upgradeValue[(int)type] > 10)//업그레이드 최대치인경우
             return false;
 
         int upgradeCost = CostReturn(type);
 
         if (upgradeCost > 1000)//업그레이드에 소모하는 재화 종류가 전투데이터일경우
         {
-            if(GameManager.instance.combatData > upgradeCost)
+            if(GameManager.instance.combatData >= upgradeCost)
             {
                 UpgradeValueUp((int)type);
                 GameManager.instance.CombatDataUse(upgradeCost);
@@ -151,7 +206,7 @@ public class AircraftUpgradeData
         }
         else//업그레이드에 소모하는 재화 종류가 골드일 경우
         {
-            if(GameManager.instance.gold > upgradeCost)
+            if(GameManager.instance.gold >= upgradeCost)
             {
                 UpgradeValueUp((int)type);
                 GameManager.instance.GoldUse(upgradeCost);
@@ -179,13 +234,17 @@ public class AircraftUpgradeData
         int dataCost = upgradeValue[(int)type] * 1000 * baseCost;
         int goldCost = (upgradeValue[(int)type]-3) * baseCost;
 
-        if(upgradeValue[(int)type] >= 4)
+        if(upgradeValue[(int)type] >= 4 && upgradeValue[(int)type] <= 10)
         {
             return goldCost;
         }
-        else
+        else if(upgradeValue[(int)type] < 4)
         {
             return dataCost;
+        }
+        else
+        {
+            return int.MaxValue;
         }
     }
 

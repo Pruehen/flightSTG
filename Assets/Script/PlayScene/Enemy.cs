@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
         hp -= dmg;
         if(hp <= 0)
         {
-            Destroyed();
+            GetComponent<Target>().Destroyed(this);
         }
         else if(gunEffectOn)
         {
@@ -125,16 +125,14 @@ public class Enemy : MonoBehaviour
         gunHitSound.Play();
     }
 
-    public int score = 100;
+    //public int score = 100;
 
-    void Destroyed()
+
+    private void OnTriggerEnter(Collider other)
     {
-        //EnemyManager.instance.EnemyCreate();
-
-        EnemyManager.instance.DebriCreate(this.transform.position, this.transform.rotation, rigidbody.velocity);
-        EnemyManager.instance.EnemyDestroy();
-
-        MissionSceneManager.instance.ScoreUp(score);
-        Destroy(this.gameObject);
+        if (other.tag == "Ground")
+        {
+            GetComponent<Target>().Destroyed(this);
+        }
     }
 }
