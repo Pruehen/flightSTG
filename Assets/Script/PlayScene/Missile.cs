@@ -70,6 +70,7 @@ public class Missile : MonoBehaviour
         {
             InvokeRepeating("NewTargetCheck", 1, 0.5f);
         }
+        loftTime = 1;
     }
 
     float activeTime = 0;
@@ -80,7 +81,7 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Debug.Log(rigidbody.velocity.magnitude);
+        //sDebug.Log(rigidbody.velocity.magnitude);
 
         airPressure = Mathf.Pow(1 - ((this.transform.position.y / 300) / 145.45f), 5.2561f);
         rigidbody.drag = DEFAULT_DRAG * airPressure * ((rigidbody.velocity.magnitude + 700) / 700);
@@ -134,16 +135,20 @@ public class Missile : MonoBehaviour
     float orderY;
     float orderXDiff;
     float orderYDiff;
-    const float Kp = 1.5f;
-    const float Kd = 6f;
-    const float LIFT_POWER_VALUE = 0.01f;
+    const float Kp = 3f;
+    const float Kd = 10f;
+    const float LIFT_POWER_VALUE = 0.002f;
     const float SPEED_GAIN = 900;
     Vector3 sideForce;
+
+    float loftTime = 7;
+
     void Guided()
     {
-        targetVec = targetObject.transform.position;
+        targetVec = targetObject.transform.position;       
 
         Vector3 toTargetVec = targetVec - this.transform.position;//missile to target Vector
+        
         toTargetVec = toTargetVec.normalized;
         angleError_diff = toTargetVec - angleError_temp;//미분항
         angleError_temp = toTargetVec;
@@ -153,15 +158,24 @@ public class Missile : MonoBehaviour
 
         Vector3 dieedAE_diff = diffedAE - orderTemp;
         orderTemp = diffedAE;
-        Vector3 orderVec = diffedAE * Kp + dieedAE_diff * Kd;
+        Vector3 pnOrderVec = diffedAE * Kp + dieedAE_diff * Kd;//비례항법식
+
 
         Vector3 side1 = toTargetVec;
-        Vector3 side2 = side1 + orderVec;
-        Vector3 orderAxis = Vector3.Cross(side1, side2);
-
-        if(sideForce.magnitude < MAX_G)
+        Vector3 side2 = side1 + pnOrderVec;
+        if(loftTime > 0 && (targetVec - this.transform.position).magnitude > 20000)
         {
-            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis * (rigidbody.velocity.magnitude * 0.0001f) * MAX_TURN_RATE, MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
+            loftTime -= Time.deltaTime;
+            side2 = side1 + new Vector3(0, 10, 0);
+        }
+        Vector3 orderAxisPn = Vector3.Cross(side1, side2);
+
+        Vector3 orderAxis = orderAxisPn;
+
+        if (sideForce.magnitude < MAX_G)
+        {
+            rigidbody.AddTorque(Vector3.ClampMagnitude(orderAxis * (rigidbody.velocity.magnitude * 0.0001f)
+                * MAX_TURN_RATE, MAX_TURN_RATE * rigidbody.drag * 10), ForceMode.Force);
         }
 
         if (Vector3.Angle(this.transform.forward, targetVec - this.transform.position) > MAX_BORESITE)

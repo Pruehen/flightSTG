@@ -144,7 +144,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Base_Smoothness: 0.29
+    - _Base_Smoothness: 0.387
     - _BendNormalsFreq: 4
     - _BendNormalsStrength: 0.05
     - _BumpScale: 1
@@ -201,7 +201,7 @@ Material:
     - _IndexofRefraction: 1.05
     - _MainShown: 1
     - _MaskClipValue: 0.5
-    - _Metallic: 0.7
+    - _Metallic: 0.83
     - _Metallic2: 1
     - _Midpoint: -0.212
     - _MinPulseBrightness: 0
@@ -318,7 +318,7 @@ Material:
     - maxDist: 10
     - minDist: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.181281, b: 0.3679245, a: 1}
+    - _Color: {r: 0, g: 0.18004818, b: 0.3679245, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _CurvatureMultOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CutoffEdgeGlow: {r: 0, g: 0, b: 0, a: 0.02}

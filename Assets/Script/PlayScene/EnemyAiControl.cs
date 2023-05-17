@@ -27,7 +27,7 @@ public class EnemyAiControl : MonoBehaviour
 
         target_Player = PlayerInfo.playerInfo.transform;
 
-        
+        evadeRange = Random.Range(0, 3000);
     }
 
     State state = State.idle;
@@ -155,6 +155,7 @@ public class EnemyAiControl : MonoBehaviour
     GameObject missileManager;
     float missileTime = 10;
     public float missileCoolTime = 10f;
+    float evadeRange;
     void ControlSet_Tracking()
     {
         Vector3 toTargetVec = target_Player.position - this.transform.position;
@@ -170,7 +171,7 @@ public class EnemyAiControl : MonoBehaviour
             {
                 aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1), Mathf.Clamp(-toTargetLocalVec.y * 0.01f, -1, 1), Mathf.Clamp(toTargetLocalVec.x * 0.01f, -1, 1));
             }
-            else if(Vector3.Magnitude(toTargetVec) < 3000)//evade
+            else if(Vector3.Magnitude(toTargetVec) < evadeRange)//evade
             {
                 aimPoint = new Vector3(Mathf.Clamp(toTargetLocalVec.x, -1, 1), 0, 0);
             }
